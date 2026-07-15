@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components{
+    .btn {
+        @apply px-5 py-3 bg-[#DEDEDE] rounded-xl
+    }
+    .selected{
+        @apply !border-[#46cf8b] !text-[#393433]
+    }
+}
