@@ -17,35 +17,11 @@ import { GenirateId } from "@/js/genirateId.js";
 
 function Home() {
   const [hide, setHide] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null)
   const [edit, setEdit] = useState(false);
-  const [idd, setId] = useState(null);
   const [selected, setSelected] = useState("");
   const [value, setValue] = useState("");
   const [tasks, setTasks] = useState([
-    {
-      id: "1",
-      type: "health",
-      task: "drink harl cup of water in morning",
-      date: "20/20/2000",
-    },
-    {
-      id: "2",
-      type: "work",
-      task: "run half our evryday",
-      date: "20/20/2000",
-    },
-    {
-      id: "3",
-      type: "mental health",
-      task: "watch movie",
-      date: "20/20/2000",
-    },
-    {
-      id: "4",
-      type: "others",
-      task: "call freind",
-      date: "20/20/2000",
-    },
   ]);
     useEffect(()=>{
       console.log("rendring again ...")
@@ -89,19 +65,22 @@ function Home() {
         type: selected || "others",
       },
     ]);
+    setValue("")
+    setSelected("")
   }
   // edit task
-  function editTask(e) {
-    console.log("id", idd);
+  function editTask(selectedTask) {
+    console.log("task", selectedTask);
     setTasks(
       tasks.map((task) => {
-        if (task?.id === idd) {
+        if (task?.id === selectedTask.id) {
           task.task = value;
           task.type = selected || "others";
         }
         return task;
       }),
     );
+    setEdit(false)
   }
   return (
     <div className="px-6 pt-6 h-dvh">
@@ -111,10 +90,9 @@ function Home() {
         {category.map((category, index) => (
           <Category
             key={index}
-            type={category.type}
-            className={category.className}
+            category={category}
             count={tasks.filter(task => task.type === category.type).length}
-            img={category.img}
+            onClick={()=>{console.log("hello u just clicked the category")}}
           />
         ))}
       </div>
@@ -125,7 +103,7 @@ function Home() {
           action={addTask}
           tasks={tasks}
           setTasks={setTasks}
-          btntext={"save"}
+          btntext={"add"}
           value={value}
           setValue={setValue}
           selected={selected}
@@ -144,24 +122,28 @@ function Home() {
           btntext={"edit"}
           selected={selected}
           setSelected={setSelected}
+          selectedTask={selectedTask}
         />
       )}
 
       <div className="overflow-auto h-[300px] relative pb-[85px]">
         {tasks.map((task) => (
           <Task
-            taskId={task.id}
             key={task?.id}
-            setId={setId}
-            setEdit={() => {
-              setEdit(true);
-              setHide(false)
+            setEdit={(isEditDivOpen,isAddDivOpen) => {
+              setEdit(isEditDivOpen);
+              setHide(isAddDivOpen)
             }}
             type={task?.type}
-            task={task?.task}
+            taskText={task?.task}
+            task={task}
             tasks={tasks}
             setTasks={setTasks}
             date={task?.date}
+            setValue={setValue}
+            hide={hide}
+            setSelected={setSelected}
+            setSelectedTask={setSelectedTask}
           />
         ))}
       </div>
@@ -172,6 +154,8 @@ function Home() {
         onClick={() => {
             setHide(true)
             setEdit(false)
+            setValue('')
+            setSelected("")
         }}
       />
     </div>

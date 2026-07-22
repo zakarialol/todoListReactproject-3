@@ -7,7 +7,7 @@ import { useState,useEffect} from "react"
 import Xmark from "@/assets/icons/xmark.png"
 import Clock from "@/components/icons/Clock"
 
-function AddTask({setTasks,tasks,onClick,btntext,action,value,setValue,selected,setSelected}){
+function AddTask({setTasks,tasks,onClick,btntext,action,setEdit,value,setValue,selected,setSelected, selectedTask}){
     const typesArray = ["health","work","mental health"]
     useEffect(()=>{
         console.log('chaged **')
@@ -29,7 +29,8 @@ function AddTask({setTasks,tasks,onClick,btntext,action,value,setValue,selected,
                 </div>
                 <div className="gap-2">
                         <Button value={value}  onClick={()=>{
-                            action()
+                            action(selectedTask)
+                            
                         }} className={`btn text-[#898989] capitalize w-full ${value.trim().length > 0 ? "bg-[#393433] text-[#FFFFFF]":""}`} text={btntext}/>
                 </div>
             </div>
