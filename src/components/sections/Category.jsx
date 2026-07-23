@@ -1,10 +1,10 @@
 import { useState } from "react"
-function Task({count,onClick,category}){
-
+function Task({count,onClick,category,selectedCategory}){
+    console.log(selectedCategory,"selected category")
     //function to filter tasks
 
     return (
-        <div className={`p-4 ${category.className} font-inter rounded-xl border border-transparent border-2`} onClick={onClick}> 
+        <div className={`p-4 ${category.className} ${selectedCategory? "border-green-500":""} font-inter rounded-xl border border-transparent border-2`} onClick={onClick}> 
             <img className="mb-4" src={category.img} alt={`${category.type} img`} />
             <div>
                 <span className="mr-1 text-[#121212] font-bold">{count}</span>

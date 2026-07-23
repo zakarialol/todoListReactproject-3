@@ -21,6 +21,7 @@ function Home() {
   const [edit, setEdit] = useState(false);
   const [selected, setSelected] = useState("");
   const [value, setValue] = useState("");
+  const [selectedCategory,setSelectedCategory]=useState(null)
   const [tasks, setTasks] = useState([
   ]);
     useEffect(()=>{
@@ -82,6 +83,15 @@ function Home() {
     );
     setEdit(false)
   }
+  // filter the task
+  const filterdTasks = tasks?.filter((task)=>{
+    if(selectedCategory === "health") return task.type === selectedCategory
+    if(selectedCategory === "work") return task.type === selectedCategory
+    if(selectedCategory === "mental health") return task.type === selectedCategory
+    if(selectedCategory === "others") return task.type === selectedCategory
+    return task
+  })
+
   return (
     <div className="px-6 pt-6 h-dvh">
       <Header />
@@ -91,8 +101,11 @@ function Home() {
           <Category
             key={index}
             category={category}
+            selectedCategory={selectedCategory === category.type ? category.type : null}
             count={tasks.filter(task => task.type === category.type).length}
-            onClick={()=>{console.log("hello u just clicked the category")}}
+            onClick={()=>{
+              setSelectedCategory(()=>selectedCategory === category.type? null : category.type);
+            }}
           />
         ))}
       </div>
@@ -127,7 +140,7 @@ function Home() {
       )}
 
       <div className="overflow-auto h-[300px] relative pb-[85px]">
-        {tasks.map((task) => (
+        {filterdTasks.map((task) => (
           <Task
             key={task?.id}
             setEdit={(isEditDivOpen,isAddDivOpen) => {
