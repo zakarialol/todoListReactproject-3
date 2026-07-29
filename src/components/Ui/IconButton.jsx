@@ -1,8 +1,8 @@
-function IconButton({text,onClick,className=""}){
+function SvgButton({imgPath,onClick,className=""}){
     return (
         <button className={className} onClick={onClick}>
-            <img className="" src={text} alt="" />
+            <img src={imgPath} alt="" />
         </button>
     )
 }
-export default IconButton
+export default SvgButton

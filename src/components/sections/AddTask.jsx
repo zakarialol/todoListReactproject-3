@@ -28,7 +28,9 @@ function AddTask({setTasks,tasks,onClick,btntext,action,setEdit,value,setValue,s
                     }}>{item}</span>)}
                 </div>
                 <div className="gap-2">
-                        <Button value={value}  onClick={()=>{
+                        <Button value={()=>{
+                            return !value.trim().length > 0 && "disabled"
+                        }}  onClick={()=>{
                             action(selectedTask)
                             
                         }} className={`btn text-[#898989] capitalize w-full ${value.trim().length > 0 ? "bg-[#393433] text-[#FFFFFF]":""}`} text={btntext}/>

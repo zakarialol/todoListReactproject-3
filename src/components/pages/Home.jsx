@@ -5,14 +5,18 @@ import mentalHealthImg from "@/assets/icons//mentalHealthImg.png";
 import otherImg from "@/assets/icons//otherImg.png";
 import workImg from "@/assets/icons//workImg.png";
 import plusImg from "@/assets/icons//plus.png";
+import MenuIcon from "../../components/icons/MenuIcon"
 //jsx
 import Header from "../layouts/Datee";
 import Category from "../sections/Category";
 import Task from "../sections/Task";
 import IconButton from "../Ui/IconButton";
 import AddTask from "../sections/AddTask";
+import SvgButton from "../../components/Ui/Svgbutton.jsx"
+import OpenSideModaleMenu from "@/components/sections/OpenSideModal"
 //js
 import { GenirateId } from "@/js/genirateId.js";
+import Button from "../Ui/Button";
 // import categoryIncrementFunc from "@/js/incrementCategory.js";
 
 function Home() {
@@ -22,6 +26,7 @@ function Home() {
   const [selected, setSelected] = useState("");
   const [value, setValue] = useState("");
   const [selectedCategory,setSelectedCategory]=useState(null)
+  const [OpenSideModale,setOpenSideModale] = useState(false)
   const [tasks, setTasks] = useState([
   ]);
     useEffect(()=>{
@@ -94,8 +99,12 @@ function Home() {
 
   return (
     <div className="px-6 pt-6 h-dvh">
-      <Header />
-
+      <div className="flex justify-between">
+          <Header />  
+          <SvgButton svg={<MenuIcon width={"35px"}  height={"35px"}/>} onclick={()=>{setOpenSideModale(!OpenSideModale) 
+            console.log('hello world')}}/>
+      </div>
+      <OpenSideModaleMenu OpenSideModale={OpenSideModale} className="bg-gray-200 w-[272px] -right-full fixed  top-16 h-dvh z-50"/>
       <div className="grid grid-cols-2 gap-2 my-8">
         {category.map((category, index) => (
           <Category
@@ -162,7 +171,7 @@ function Home() {
       </div>
 
       <IconButton
-        text={plusImg}
+        imgPath={plusImg}
         className="bg-[#393433] border border-[#ACACAC] rounded-xl px-[21px] py-[14px] fixed bottom-[30px] right-[30px]"
         onClick={() => {
             setHide(true)

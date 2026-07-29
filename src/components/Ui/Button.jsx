@@ -1,6 +1,6 @@
-function Button({text,className,onClick,value}){
+function Button({text="",className="",onClick,value=""}){
     return(
-        <button disabled={!value.trim().length > 0 && "disabled"} onClick={onClick} className={className}>{text}</button>
+        <button disabled={value} onClick={onClick} className={className}>{text}</button>
     )
 }
 export default Button
