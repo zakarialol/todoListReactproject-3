@@ -3,13 +3,15 @@
 import CalenderIcon from "@/components/icons/calenderIcon"
 import ProfileIcon from "@/components/icons/ProfileIcon"
 import LogOutIcon from "@/components/icons/logOutIcon"
+import ContactIcon from "@/components/icons/contactIcon"
+import BinIcon from "@/components/icons/binIcon"
 import Button from "@/components/Ui/Button"
 import SvgButton from "@/components/Ui/Svgbutton"
 import XmarkIcon from "@/components/icons/Xmark"
 //jsx
 import Profile  from "./Profile"
 function OpenSideModale({className="",OpenSideModale,setOpenSideModale}){
-    const menuBtns = [{icon:<ProfileIcon/>,text:"profile",id:"1"},{icon:<CalenderIcon/>,text:"calender",id:"2"},{icon:<LogOutIcon/>,text:"log out",id:"3"}]
+    const menuBtns = [{icon:<ProfileIcon/>,text:"profile",id:"1"},{icon:<CalenderIcon/>,text:"calender",id:"2"},{icon:<ContactIcon/>,text:"contact",id:"3"},{icon:<BinIcon/>,text:"bin",id:"4"},{icon:<LogOutIcon/>,text:"log out",id:"5"}]
     return (
        <div className={`${className} ${OpenSideModale && 'right-0'}`}>
             <div className="text-end">
