@@ -23,7 +23,7 @@ function AddTask({setTasks,tasks,onClick,btntext,action,setEdit,value,setValue,s
             </div>
             <div >
                 <div className="flex gap-[10px] mb-5">
-                    {typesArray.map((item,index)=><span key={item} className={` uppercase bg-[RGB(224_224_224_/.4)] px-[6px] py-[4px] rounded text-xs text-[RGB(102_102_102_/.5)] border border-transparent cursor-pointer ${selected === item ? "selected" : ""}`} key={item[item]} onClick={()=>{
+                    {typesArray.map((item,index)=><span key={item} className={` uppercase bg-[RGB(224_224_224_/.4)] px-[6px] py-[4px] rounded text-xs text-[RGB(102_102_102_/.5)] border border-transparent cursor-pointer ${selected === item ? "selected" : ""}`}  onClick={()=>{
                         setSelected((prev)=> prev === item ? "" : item)
                     }}>{item}</span>)}
                 </div>

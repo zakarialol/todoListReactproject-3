@@ -1,6 +1,7 @@
-function SvgButton({svg ,onclick}){
+function SvgButton({svg ,onclick,className=""}){
     return(
-            <button onClick={onclick}>{svg}</button> 
+            <button className={className} onClick={onclick}>
+                {svg}</button> 
     )
 }
 export default SvgButton

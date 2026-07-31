@@ -10,3 +10,8 @@
         @apply !border-[#46cf8b] !text-[#393433]
     }
 }
+@layer utilities{
+    .boxShadowGray{
+        box-shadow: 0px 0px 20px rgba(128 128 128 / .5);;
+    }
+}

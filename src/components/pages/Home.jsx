@@ -104,7 +104,7 @@ function Home() {
           <SvgButton svg={<MenuIcon width={"35px"}  height={"35px"}/>} onclick={()=>{setOpenSideModale(!OpenSideModale) 
             console.log('hello world')}}/>
       </div>
-      <OpenSideModaleMenu OpenSideModale={OpenSideModale} className="bg-gray-200 w-[272px] -right-full fixed  top-16 h-dvh z-50"/>
+      <OpenSideModaleMenu OpenSideModale={OpenSideModale} setOpenSideModale={setOpenSideModale} className="bg-white w-[272px] -right-full fixed  top-0 h-dvh z-50 transition-all duration-300 ease-linear boxShadowGray" />
       <div className="grid grid-cols-2 gap-2 my-8">
         {category.map((category, index) => (
           <Category
