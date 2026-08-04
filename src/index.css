@@ -9,6 +9,15 @@
     .selected{
         @apply !border-[#46cf8b] !text-[#393433]
     }
+    .inputTitle{
+        @apply font-inter text-[#383838] mb-2 capitalize
+    }
+    .registerInput{
+        @apply mb-4 px-4 py-1 rounded-2xl border-[#7D7C7A] border w-full
+    }
+    .formTitle{
+        @apply capitalize text-[#000000] font-inter text-2xl mb-8
+    }
 }
 @layer utilities{
     .boxShadowGray{
