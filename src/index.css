@@ -18,6 +18,9 @@
     .formTitle{
         @apply capitalize text-[#000000] font-inter text-2xl mb-8
     }
+    .inputSubBtn{
+        @apply px-[17px] py-[5px] rounded-2xl cursor-pointer w-full capitalize
+    }
 }
 @layer utilities{
     .boxShadowGray{
