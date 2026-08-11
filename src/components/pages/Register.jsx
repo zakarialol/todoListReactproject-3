@@ -8,7 +8,8 @@ import Button from "@/components/Ui/Button";
 import { Link } from "react-router-dom";
 import useInput from "../hooks/Useinput.js";
 //
-import { auth } from "../../Firebase/firebase.js";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "../../Firebase/firebase.js";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 function Register() {
   const fullName = useInput("");
@@ -22,14 +23,22 @@ function Register() {
     try {
       const userCridenial = await createUserWithEmailAndPassword(
         auth,
-        // fullName.value,
         email.value,
         password.value,
       );
-      console.log("waiting ...");
-      console.log(userCridenial);
+      console.log(userCridenial, "usercridenial");
+      const uid = userCridenial.user.uid;
+
+      await setDoc(doc(db, "users", uid), {
+        fullName: fullName.value,
+      });
+      console.log("registred succefully..");
     } catch (err) {
-      console.log(err);
+      if (err.code === "auth/email-already-in-use") {
+        console.log("this email already exist");
+      } else {
+        console.log(err);
+      }
     }
   }
   //
