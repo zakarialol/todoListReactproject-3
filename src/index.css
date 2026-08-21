@@ -2,28 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components{
-    .btn {
-        @apply px-5 py-3 bg-[#DEDEDE] rounded-xl
-    }
-    .selected{
-        @apply !border-[#46cf8b] !text-[#393433]
-    }
-    .inputTitle{
-        @apply font-inter text-[#383838] mb-2 capitalize
-    }
-    .registerInput{
-        @apply mb-4 px-4 py-1 rounded-2xl border-[#7D7C7A] border w-full
-    }
-    .formTitle{
-        @apply capitalize text-[#000000] font-inter text-2xl mb-8
-    }
-    .inputSubBtn{
-        @apply px-[17px] py-[5px] rounded-2xl cursor-pointer w-full capitalize
-    }
+@layer components {
+  .btn {
+    @apply px-5 py-3 bg-[#DEDEDE] rounded-xl;
+  }
+  .selected {
+    @apply !border-[#46cf8b] !text-[#393433];
+  }
+  .inputTitle {
+    @apply font-inter text-[#383838] mb-2 capitalize;
+  }
+  .registerInput {
+    @apply px-4 py-1 rounded-2xl border-[#7D7C7A] border w-full;
+  }
+  .formTitle {
+    @apply capitalize text-[#000000] font-inter text-2xl mb-8;
+  }
+  .inputSubBtn {
+    @apply px-[17px] py-[5px] rounded-2xl cursor-pointer w-full capitalize;
+  }
 }
-@layer utilities{
-    .boxShadowGray{
-        box-shadow: 0px 0px 20px rgba(128 128 128 / .5);;
-    }
+@layer utilities {
+  .boxShadowGray {
+    box-shadow: 0px 0px 20px rgba(128 128 128 / 0.5);
+  }
 }
