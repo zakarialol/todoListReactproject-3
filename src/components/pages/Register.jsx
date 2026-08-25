@@ -13,14 +13,15 @@ import { auth, db } from "../../Firebase/firebase.js";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 //
-const validinputsfunc = (
+import displayOrhideformErrors from "../../js/DispalyOrHideFormError.js";
+//
+function validinputsfunc(
   fullName,
   email,
   password,
   confirmPassword,
   setErrors,
-  errors,
-) => {
+) {
   //
   const fullnameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:\s+[A-Za-zÀ-ÖØ-öø-ÿ]+)*$/;
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -30,86 +31,45 @@ const validinputsfunc = (
   const FormInputsErrorsObj = {};
   if (!fullnameRegex.test(fullName.value)) {
     FormInputsErrorsObj.fullName = true;
-    console.log("inside the full name");
-    // setErrors((prev) => {
-    //   return {
-    //     ...prev,
-    //     fullName: {
-    //       ...prev.fullName,
-    //       showError: condition,
-    //     },
-    //   };
-    // });
+  } else {
+    FormInputsErrorsObj.fullName = false;
   }
 
   if (!emailRegex.test(email.value)) {
-    console.log("inside email condition");
     FormInputsErrorsObj.email = true;
-    // setErrors((prev) => {
-    //   return {
-    //     ...prev,
-    //     email: {
-    //       ...prev.email,
-    //       showError: condition,
-    //     },
-    //   };
-    // });
+  } else {
+    FormInputsErrorsObj.email = false;
   }
-
   if (!passwordRegex.test(password.value)) {
-    console.log("inside the password");
     FormInputsErrorsObj.password = true;
-    // setErrors((prev) => {
-    //   return {
-    //     ...prev,
-    //     password: {
-    //       ...prev.password,
-    //       showError: condition,
-    //     },
-    //   };
-    // });
+  } else {
+    FormInputsErrorsObj.password = false;
   }
 
   if (password.value !== confirmPassword.value) {
-    console.log("inside confirm password");
     FormInputsErrorsObj.confirmPassword = true;
-    // setErrors((prev) => {
-    //   return {
-    //     ...prev,
-    //     confirmPassword: {
-    //       ...prev.confirmPassword,
-    //       showError: condition,
-    //     },
-    //   };
-    // });
+  } else {
+    FormInputsErrorsObj.confirmPassword = false;
   }
-  console.log(FormInputsErrorsObj, "forinputserrorsobj");
-  for (const key in FormInputsErrorsObj) {
-    setErrors((prev) => {
-      return {
-        ...prev,
-        [key]: {
-          ...prev.key,
-          showError: FormInputsErrorsObj[key],
-        },
-      };
-    });
-  }
-  console.log(errors, "errors");
-  // setErrors(FormInputsErrorsObj);
-  // console.log(
-  //   Object.keys(FormInputsErrorsObj).length === 0,
-  //   "result of inputs",
-  // );
-  // return Object.keys(FormInputsErrorsObj).length === 0;
-};
-
+  displayOrhideformErrors(FormInputsErrorsObj, setErrors);
+  // for (const key in FormInputsErrorsObj) {
+  //   setErrors((prev) => {
+  //     const updated = { ...prev };
+  //     updated[key] = {
+  //       ...updated[key],
+  //       showError: FormInputsErrorsObj[key],
+  //     };
+  //     return updated;
+  //   });
+  // }
+  return Object.values(FormInputsErrorsObj).some((value) => value === true);
+}
+//todo register cmponent function
 function Register() {
   const fullName = useInput("");
   const email = useInput("");
   const password = useInput("");
   const confirmPassword = useInput("");
-
   const [errors, setErrors] = useState({
     fullName: {
       msg: "full name not valid",
@@ -128,19 +88,20 @@ function Register() {
       showError: false,
     },
   });
-  //function to call the firebase api
+
+  //todo function when user clickes form submit
   async function handleSubmit(e) {
     e.preventDefault();
     //
-    validinputsfunc(
+    const hasInvalidInputs = validinputsfunc(
       fullName,
       email,
       password,
       confirmPassword,
       setErrors,
-      errors,
     );
-    if (!validinputsfunc) {
+    if (hasInvalidInputs) {
+      console.log("inside the false validinputs func");
       return;
     }
     // try {
@@ -149,7 +110,7 @@ function Register() {
     //     email.value,
     //     password.value,
     //   );
-    //   console.log(userCridenial, "usercridenial");
+    //   console.log(userCridenial, "usercridenial");g
     //   const uid = userCridenial.user.uid;
     //   await setDoc(doc(db, "users", uid), {
     //     fullName: fullName.value,

@@ -1,6 +1,4 @@
 function InputWithTitle({ title, type, name, error, showError, ...props }) {
-  console.log(error, "erro iniside the input withtitle **@@@**");
-  //
   //
   return (
     <>
@@ -17,11 +15,8 @@ function InputWithTitle({ title, type, name, error, showError, ...props }) {
         />
 
         <div
-          // className={`overflow-hidden transition-[max-height] duration-1000 ${
-          //   error ? "max-h-5" : "max-h-[0px]"
-          // }`}
-          className={`overflow-hidden transition-[max-height] duration-1000 ${
-            showError ? "max-h-6" : "max-h-0"
+          className={`overflow-hidden transition-[max-height] duration-500 ${
+            showError ? "max-h-20" : "max-h-0"
           }`}
         >
           {error.split(",").map((item) => {
