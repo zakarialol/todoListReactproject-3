@@ -32,8 +32,6 @@ function InputWithTitle({
           type={type}
           name={name}
           onBlur={onblur}
-          // value={value}
-          // onChange={onChange}
           {...props}
           id={title}
           className="registerInput"

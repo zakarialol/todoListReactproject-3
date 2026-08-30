@@ -94,6 +94,7 @@ function Register() {
   });
   //!
   const fullName = useInput({ initialValue: "", errors });
+  console.log(fullName, "fullname...");
   const email = useInput({ initialValue: "", errors });
   const password = useInput({ initialValue: "", errors });
   const confirmPassword = useInput({ initialValue: "", errors });
@@ -104,6 +105,7 @@ function Register() {
   //!
 
   //todo function when user clickes form submit
+  //!
   async function handleSubmit(e) {
     e.preventDefault();
     //
@@ -118,6 +120,7 @@ function Register() {
       console.log("inside the false validinputs func");
       return;
     }
+
     // try {
     //   const userCridenial = await createUserWithEmailAndPassword(
     //     auth,
@@ -138,6 +141,9 @@ function Register() {
     //   }
     // }
   }
+  //!
+  console.log(fullName, "fullname...");
+
   //
   return (
     <div className="px-6 pt-6 h-dvh">
