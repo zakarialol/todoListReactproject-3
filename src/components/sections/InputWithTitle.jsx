@@ -1,4 +1,26 @@
-function InputWithTitle({ title, type, name, error, showError, ...props }) {
+import { useEffect } from "react";
+function InputWithTitle({
+  title,
+  type,
+  name,
+  error,
+  onblur,
+  showError,
+  // onChange,
+  // value,
+  ...props
+
+  // ...props
+}) {
+  // useEffect(() => {
+  //   console.log(props, "props");
+  //   console.log(...props, "...props");
+  //   console.log(value, "value line 14");
+  //   console.log(onChange, "onChange line 16");
+  // }, [value]);
+  // console.log(value, "value line 14");
+  // console.log(onChange, "onChange line 16");
+  // console.log({ ...props }, "props line number 11");
   //
   return (
     <>
@@ -9,6 +31,9 @@ function InputWithTitle({ title, type, name, error, showError, ...props }) {
         <input
           type={type}
           name={name}
+          onBlur={onblur}
+          // value={value}
+          // onChange={onChange}
           {...props}
           id={title}
           className="registerInput"

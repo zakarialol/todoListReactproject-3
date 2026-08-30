@@ -11,7 +11,9 @@ import useInput from "../hooks/Useinput.js";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../Firebase/firebase.js";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+//
+import { fullnameRegex, emailRegex, passwordRegex } from "../../js/regex.js";
 //
 import displayOrhideformErrors from "../../js/DispalyOrHideFormError.js";
 //
@@ -22,12 +24,6 @@ function validinputsfunc(
   confirmPassword,
   setErrors,
 ) {
-  //
-  const fullnameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:\s+[A-Za-zÀ-ÖØ-öø-ÿ]+)*$/;
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const passwordRegex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
-  //
   const FormInputsErrorsObj = {};
   if (!fullnameRegex.test(fullName.value)) {
     FormInputsErrorsObj.fullName = true;
@@ -52,42 +48,60 @@ function validinputsfunc(
     FormInputsErrorsObj.confirmPassword = false;
   }
   displayOrhideformErrors(FormInputsErrorsObj, setErrors);
-  // for (const key in FormInputsErrorsObj) {
-  //   setErrors((prev) => {
-  //     const updated = { ...prev };
-  //     updated[key] = {
-  //       ...updated[key],
-  //       showError: FormInputsErrorsObj[key],
-  //     };
-  //     return updated;
-  //   });
-  // }
   return Object.values(FormInputsErrorsObj).some((value) => value === true);
 }
+
+//!
+//* this when the user lives the input
+
+function livingInput(inputName, setErrors) {
+  setErrors((prev) => ({
+    ...prev,
+    [inputName]: {
+      ...prev[inputName],
+      touched: true,
+    },
+  }));
+}
+
 //todo register cmponent function
 function Register() {
-  const fullName = useInput("");
-  const email = useInput("");
-  const password = useInput("");
-  const confirmPassword = useInput("");
   const [errors, setErrors] = useState({
     fullName: {
       msg: "full name not valid",
       showError: false,
+      touched: false,
+      isvalid: false,
     },
     email: {
       msg: "email not valid",
       showError: false,
+      touched: false,
+      isvalid: false,
     },
     password: {
       msg: "password mast include uppercase letter,must include special caracter,must be more than 8 letters",
       showError: false,
+      touched: false,
+      isvalid: false,
     },
     confirmPassword: {
       msg: "password not much ",
       showError: false,
+      touched: false,
+      isvalid: false,
     },
   });
+  //!
+  const fullName = useInput({ initialValue: "", errors });
+  const email = useInput({ initialValue: "", errors });
+  const password = useInput({ initialValue: "", errors });
+  const confirmPassword = useInput({ initialValue: "", errors });
+  //!
+  useEffect(() => {
+    console.log("errors***###***", errors);
+  }, [errors]);
+  //!
 
   //todo function when user clickes form submit
   async function handleSubmit(e) {
@@ -136,23 +150,30 @@ function Register() {
       <div className="text-center">
         <Paragraph className="formTitle" text="create and account" />
       </div>
-
       <form action="" onSubmit={handleSubmit}>
         <InputWithTitle
           name="fullName"
           {...fullName}
+          value={fullName.value}
+          onChange={fullName.onChange}
           title="full name"
           type="text"
           error={errors.fullName["msg"]}
           showError={errors.fullName.showError}
+          // onblur={() => {
+          //   livingInput("fullName", setErrors);
+          // }}
         />
         <InputWithTitle
           name="email"
-          {...email}
           title="email"
           type="email"
           error={errors.email["msg"]}
           showError={errors.email.showError}
+          {...email}
+          // onblur={() => {
+          //   livingInput("email", setErrors);
+          // }}
         />
         <InputWithTitle
           name="password"
@@ -161,6 +182,9 @@ function Register() {
           type="password"
           error={errors.password["msg"]}
           showError={errors.password.showError}
+          onblur={() => {
+            livingInput("password", setErrors);
+          }}
         />
         <InputWithTitle
           name="confirmPassword"
@@ -169,6 +193,9 @@ function Register() {
           type="password"
           error={errors.confirmPassword["msg"]}
           showError={errors.confirmPassword.showError}
+          onblur={() => {
+            livingInput("confirmPassword", setErrors);
+          }}
         />
 
         <Button
