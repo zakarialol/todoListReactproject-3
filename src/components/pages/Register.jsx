@@ -6,16 +6,18 @@ import LogoAndTitle from "@/components/sections/LogoAndTitle";
 import InputWithTitle from "@/components/sections/InputWithTitle";
 import Button from "@/components/Ui/Button";
 import { Link } from "react-router-dom";
-import useInput from "../hooks/Useinput.js";
+import useInput from "../hooks/useinput.js";
 //firebase
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../Firebase/firebase.js";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState, useEffect } from "react";
+import validInput from "../../js/validInput.js";
 //
 import { fullnameRegex, emailRegex, passwordRegex } from "../../js/regex.js";
 //
 import displayOrhideformErrors from "../../js/DispalyOrHideFormError.js";
+import displayError from "../../js/displayError.js";
 //
 function validinputsfunc(
   fullName,
@@ -54,14 +56,20 @@ function validinputsfunc(
 //!
 //* this when the user lives the input
 
-function livingInput(inputName, setErrors) {
-  setErrors((prev) => ({
-    ...prev,
-    [inputName]: {
-      ...prev[inputName],
-      touched: true,
-    },
-  }));
+function livingInput(e, setErrors, password = {}) {
+  const name = e.target.name;
+  if (name === "confirmPassword") {
+    console.log(password, "password confirm password");
+    console.log(e.target.value, "e.target.value");
+    const isvalid = e.target.value === password.value;
+    console.log("isvalid confirm password ?", isvalid);
+    displayError(setErrors, name, isvalid);
+    return;
+  }
+  const isvalid = validInput(e.target.value, name);
+  // if (!isvalid) {
+  displayError(setErrors, name, isvalid);
+  // }
 }
 
 //todo register cmponent function
@@ -93,15 +101,14 @@ function Register() {
     },
   });
   //!
-  const fullName = useInput({ initialValue: "", errors });
-  console.log(fullName, "fullname...");
-  const email = useInput({ initialValue: "", errors });
-  const password = useInput({ initialValue: "", errors });
-  const confirmPassword = useInput({ initialValue: "", errors });
+  const fullName = useInput({ initialValue: "", errors, setErrors });
+  const email = useInput({ initialValue: "", errors, setErrors });
+  const password = useInput({ initialValue: "", errors, setErrors });
+  const confirmPassword = useInput({ initialValue: "", errors, setErrors });
   //!
-  useEffect(() => {
-    console.log("errors***###***", errors);
-  }, [errors]);
+  // useEffect(() => {
+  //   console.log("errors***###***", errors);
+  // }, [errors]);
   //!
 
   //todo function when user clickes form submit
@@ -142,7 +149,6 @@ function Register() {
     // }
   }
   //!
-  console.log(fullName, "fullname...");
 
   //
   return (
@@ -166,9 +172,9 @@ function Register() {
           type="text"
           error={errors.fullName["msg"]}
           showError={errors.fullName.showError}
-          // onblur={() => {
-          //   livingInput("fullName", setErrors);
-          // }}
+          onblur={(e) => {
+            livingInput(e, setErrors);
+          }}
         />
         <InputWithTitle
           name="email"
@@ -177,9 +183,9 @@ function Register() {
           error={errors.email["msg"]}
           showError={errors.email.showError}
           {...email}
-          // onblur={() => {
-          //   livingInput("email", setErrors);
-          // }}
+          onblur={(e) => {
+            livingInput(e, setErrors);
+          }}
         />
         <InputWithTitle
           name="password"
@@ -188,8 +194,8 @@ function Register() {
           type="password"
           error={errors.password["msg"]}
           showError={errors.password.showError}
-          onblur={() => {
-            livingInput("password", setErrors);
+          onblur={(e) => {
+            livingInput(e, setErrors);
           }}
         />
         <InputWithTitle
@@ -199,8 +205,8 @@ function Register() {
           type="password"
           error={errors.confirmPassword["msg"]}
           showError={errors.confirmPassword.showError}
-          onblur={() => {
-            livingInput("confirmPassword", setErrors);
+          onblur={(e) => {
+            livingInput(e, setErrors, password);
           }}
         />
 

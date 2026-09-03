@@ -25,15 +25,12 @@ function InputWithTitle({
   return (
     <>
       <div className="mb-4">
-        <label htmlFor={title} className="block inputTitle">
-          {title}
-        </label>
+        <label className="block inputTitle">{title}</label>
         <input
           type={type}
           name={name}
           onBlur={onblur}
           {...props}
-          id={title}
           className="registerInput"
         />
 
