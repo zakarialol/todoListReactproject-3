@@ -6,7 +6,6 @@ const regexOBj = {
 };
 
 function validInput(value, name = "") {
-  // console.log("valid input *#*");
   return regexOBj[name].test(value);
 }
 export default validInput;

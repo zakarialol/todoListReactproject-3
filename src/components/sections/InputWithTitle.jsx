@@ -12,16 +12,6 @@ function InputWithTitle({
 
   // ...props
 }) {
-  // useEffect(() => {
-  //   console.log(props, "props");
-  //   console.log(...props, "...props");
-  //   console.log(value, "value line 14");
-  //   console.log(onChange, "onChange line 16");
-  // }, [value]);
-  // console.log(value, "value line 14");
-  // console.log(onChange, "onChange line 16");
-  // console.log({ ...props }, "props line number 11");
-  //
   return (
     <>
       <div className="mb-4">

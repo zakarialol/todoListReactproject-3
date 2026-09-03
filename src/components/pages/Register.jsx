@@ -59,17 +59,12 @@ function validinputsfunc(
 function livingInput(e, setErrors, password = {}) {
   const name = e.target.name;
   if (name === "confirmPassword") {
-    console.log(password, "password confirm password");
-    console.log(e.target.value, "e.target.value");
     const isvalid = e.target.value === password.value;
-    console.log("isvalid confirm password ?", isvalid);
     displayError(setErrors, name, isvalid);
     return;
   }
   const isvalid = validInput(e.target.value, name);
-  // if (!isvalid) {
   displayError(setErrors, name, isvalid);
-  // }
 }
 
 //todo register cmponent function

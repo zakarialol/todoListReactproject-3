@@ -1,5 +1,4 @@
 function displayError(setErrors, name, isvalid) {
-  console.log("isvalid", isvalid);
   setErrors((prev) => ({
     ...prev,
     [name]: {

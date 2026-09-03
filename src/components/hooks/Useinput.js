@@ -1,37 +1,32 @@
 import { useState, useEffect } from "react";
 import validInput from "../../js/validInput.js";
-//
-// const regexOBj = {
-//   fullName: fullnameRegex,
-//   email: emailRegex,
-//   password: passwordRegex,
-// };
-//
+import displayError from "../../js/displayError.js";
+import { passwordRegex } from "../../js/regex.js";
+let password = null;
 function useInput({ initialValue = "", errors = {}, setErrors = {} }) {
-  // useEffect(() => {
-  //   console.log("errros isnide the usinput", errors);
-  // }, [errors]);
   const [value, setValue] = useState(initialValue);
+  //!
   function handleChange(e, errors) {
     setValue(e.target.value);
     const name = e.target.name;
-    // console.log(name, "name inside vlaid input");
-    const { showError, touched } = errors[name];
-    if (!showError || !touched) return;
+    const { touched } = errors[name];
+    if (!touched) return;
     //
-    const inputIsValid = validInput(e.target.value, name);
-    if (inputIsValid) {
-      // console.log("the input is valid succefully ***##***");
-      setErrors((prev) => ({
-        ...prev,
-        [name]: {
-          ...prev[name],
-          isvalid: true,
-        },
-      }));
+    if (name === "password") {
+      password = e.target.value;
     }
-    // console.log("errors insidethe useinput", errors);
+    //
+    if (name === "confirmPassword") {
+      const isvalid = e.target.value === password;
+      displayError(setErrors, name, isvalid);
+      return;
+    }
+    //
+    const isvalid = validInput(e.target.value, name);
+    //
+    displayError(setErrors, name, isvalid);
   }
+  //
   return {
     value,
     onChange: (e) => {
