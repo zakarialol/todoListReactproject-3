@@ -1,7 +1,19 @@
-function SvgButton({svg ,onclick,className=""}){
-    return(
-            <button className={className} onClick={onclick}>
-                {svg}</button> 
-    )
+function SvgButton({
+  svg,
+  onclick,
+  type = "button",
+  className = "",
+  onMouseDown,
+}) {
+  return (
+    <button
+      type={type}
+      className={className}
+      onClick={onclick}
+      onMouseDown={onMouseDown}
+    >
+      {svg}
+    </button>
+  );
 }
-export default SvgButton
+export default SvgButton;

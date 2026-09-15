@@ -69,6 +69,17 @@ function livingInput(e, setErrors, password = {}) {
 
 //todo register cmponent function
 function Register() {
+  //this for passowrds
+  const [focused, setFocused] = useState({
+    password: false,
+    confirmPassword: false,
+  });
+  //
+  const [showPassword, setshowPassword] = useState({
+    password: false,
+    confirmPassword: false,
+  });
+  //
   const [errors, setErrors] = useState({
     fullName: {
       msg: "full name not valid",
@@ -83,13 +94,18 @@ function Register() {
       isvalid: false,
     },
     password: {
-      msg: "password mast include uppercase letter,must include special caracter,must be more than 8 letters",
+      msg: "password mast include uppercase letter,must include special caracter or number,must be more than 8 caracters",
+      passwordCon: {
+        upperCase: false,
+        specialCaracter: false,
+        moreThanEightLetters: false,
+      },
       showError: false,
       touched: false,
       isvalid: false,
     },
     confirmPassword: {
-      msg: "password not much ",
+      msg: "password don't much ",
       showError: false,
       touched: false,
       isvalid: false,
@@ -119,7 +135,6 @@ function Register() {
       setErrors,
     );
     if (hasInvalidInputs) {
-      console.log("inside the false validinputs func");
       return;
     }
 
@@ -155,26 +170,28 @@ function Register() {
       />
 
       <div className="text-center">
-        <Paragraph className="formTitle" text="create and account" />
+        <Paragraph className="formTitle" text="create an account" />
       </div>
       <form action="" onSubmit={handleSubmit}>
         <InputWithTitle
+          title="full name"
           name="fullName"
           {...fullName}
           value={fullName.value}
           onChange={fullName.onChange}
-          title="full name"
           type="text"
           error={errors.fullName["msg"]}
+          showPassword={showPassword}
           showError={errors.fullName.showError}
           onblur={(e) => {
             livingInput(e, setErrors);
           }}
         />
         <InputWithTitle
-          name="email"
           title="email"
+          name="email"
           type="email"
+          showPassword={showPassword}
           error={errors.email["msg"]}
           showError={errors.email.showError}
           {...email}
@@ -183,26 +200,50 @@ function Register() {
           }}
         />
         <InputWithTitle
+          title={"password"}
           name="password"
           {...password}
-          title="password"
-          type="password"
+          type={showPassword.password ? "text" : "password"}
           error={errors.password["msg"]}
           showError={errors.password.showError}
           onblur={(e) => {
             livingInput(e, setErrors);
+            setFocused(false);
+            setshowPassword((prev) => ({ ...prev, password: false }));
+          }}
+          showPassword={showPassword}
+          setshowPassword={setshowPassword}
+          focused={focused.password}
+          passwordCon={errors.password.passwordCon}
+          onfocus={() => {
+            setFocused((prev) => ({
+              ...prev,
+              password: true,
+            }));
           }}
         />
         <InputWithTitle
+          title="confirm password"
           name="confirmPassword"
           {...confirmPassword}
-          title="confirm password"
-          type="password"
+          type={showPassword.confirmPassword ? "text" : "password"}
           error={errors.confirmPassword["msg"]}
           showError={errors.confirmPassword.showError}
+          setshowPassword={setshowPassword}
+          showPassword={showPassword}
           onblur={(e) => {
             livingInput(e, setErrors, password);
+            setFocused(false);
+            setshowPassword((prev) => ({ ...prev, confirmPassword: false }));
           }}
+          onfocus={() => {
+            // setFocused(focused.confirmPassword);
+            setFocused((prev) => ({
+              ...prev,
+              confirmPassword: true,
+            }));
+          }}
+          focused={focused.confirmPassword}
         />
 
         <Button

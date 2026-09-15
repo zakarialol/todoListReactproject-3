@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import validInput from "../../js/validInput.js";
 import displayError from "../../js/displayError.js";
-import { passwordRegex } from "../../js/regex.js";
+import validPasswordCondition from "../../js/validPasswordCondition.js";
 let password = null;
 function useInput({ initialValue = "", errors = {}, setErrors = {} }) {
   const [value, setValue] = useState(initialValue);
@@ -14,6 +14,7 @@ function useInput({ initialValue = "", errors = {}, setErrors = {} }) {
     //
     if (name === "password") {
       password = e.target.value;
+      validPasswordCondition(password, setErrors);
     }
     //
     if (name === "confirmPassword") {
