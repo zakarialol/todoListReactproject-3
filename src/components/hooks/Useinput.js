@@ -10,6 +10,7 @@ function useInput({ initialValue = "", errors = {}, setErrors = {} }) {
     setValue(e.target.value);
     const name = e.target.name;
     const { touched } = errors[name];
+
     if (!touched) return;
     //
     if (name === "password") {

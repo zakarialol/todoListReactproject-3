@@ -2,25 +2,22 @@ import { useEffect } from "react";
 import SvgButton from "../Ui/Svgbutton";
 import HidePasswordicon from "../icons/HidePassword";
 import ShowPasswordicon from "../icons/ShowPassword";
-function InputWithTitle({
+import showPassword from "../icons/ShowPassword";
+function PasswordInput({
   type,
   title,
   name,
-  error,
   onblur,
-  showError,
-  hideShowPassowrdBtn,
+  error,
   focused,
-  onfocus,
+  onfocuse,
   showPassword,
   setshowPassword,
-  passwordCon,
-  placeholder = "",
+  showError,
+  passwordCon = "",
   ...props
-
-  // ...props
 }) {
-  // about the error msg
+  //
   //!obj for error condition
   const validPasswordCondition = [
     "upperCase",
@@ -28,22 +25,17 @@ function InputWithTitle({
     "moreThanEightLetters",
   ];
   //!
-  let errorMsg;
-  if (name === "password") {
-    const errorsMsgs = error.split(",");
-    errorMsg = errorsMsgs.map((item, index) => {
-      return (
-        <p
-          className={` font-inter  mr-4 ${passwordCon[validPasswordCondition[index]] ? "text-green-500" : "text-red-500"}`}
-          key={index}
-        >
-          {item}
-        </p>
-      );
-    });
-  } else {
-    errorMsg = <p className="font-inter text-red-500 mr-4">{error}</p>;
-  }
+  const errormsgs = error.split(",");
+  const msgError = errormsgs.map((item, index) => {
+    return (
+      <p
+        className={` font-inter  mr-4 ${passwordCon[validPasswordCondition[index]] ? "text-green-500" : "text-red-500"} `}
+        key={index}
+      >
+        {item}
+      </p>
+    );
+  });
   //
   return (
     <>
@@ -54,27 +46,26 @@ function InputWithTitle({
             type={type}
             name={name}
             onBlur={onblur}
-            onFocus={onfocus}
-            placeholder={placeholder}
-            {...props}
+            onFocus={onfocuse}
             className="registerInput"
+            {...props}
           />
           {focused && (
             <SvgButton
               type="button"
               className="h-4 w-4 absolute right-3 top-[calc(50%-8px)]"
               svg={
-                showPassword[name] ? (
+                showPassword ? (
                   <ShowPasswordicon width="w-full" height="h-full" />
                 ) : (
                   <HidePasswordicon width="w-full" height="h-full" />
                 )
               }
-              onclick={() => {
-                setshowPassword((prev) => ({ ...prev, [name]: !prev[name] }));
-              }}
               onMouseDown={(e) => {
                 e.preventDefault();
+              }}
+              onclick={() => {
+                setshowPassword((prev) => !prev);
               }}
             />
           )}
@@ -85,10 +76,10 @@ function InputWithTitle({
             showError ? "max-h-20" : "max-h-0"
           }`}
         >
-          {errorMsg}
+          {msgError}
         </div>
       </div>
     </>
   );
 }
-export default InputWithTitle;
+export default PasswordInput;

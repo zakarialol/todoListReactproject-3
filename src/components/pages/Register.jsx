@@ -12,12 +12,11 @@ import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../Firebase/firebase.js";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState, useEffect } from "react";
-import validInput from "../../js/validInput.js";
+import { livingInput } from "../../js/livingInput.js";
 //
 import { fullnameRegex, emailRegex, passwordRegex } from "../../js/regex.js";
 //
 import displayOrhideformErrors from "../../js/DispalyOrHideFormError.js";
-import displayError from "../../js/displayError.js";
 //
 function validinputsfunc(
   fullName,
@@ -55,17 +54,6 @@ function validinputsfunc(
 
 //!
 //* this when the user lives the input
-
-function livingInput(e, setErrors, password = {}) {
-  const name = e.target.name;
-  if (name === "confirmPassword") {
-    const isvalid = e.target.value === password.value;
-    displayError(setErrors, name, isvalid);
-    return;
-  }
-  const isvalid = validInput(e.target.value, name);
-  displayError(setErrors, name, isvalid);
-}
 
 //todo register cmponent function
 function Register() {
@@ -111,6 +99,9 @@ function Register() {
       isvalid: false,
     },
   });
+  // useEffect(() => {
+  //   console.log("erros", errors);
+  // }, [errors]);
   //!
   const fullName = useInput({ initialValue: "", errors, setErrors });
   const email = useInput({ initialValue: "", errors, setErrors });
@@ -127,6 +118,13 @@ function Register() {
   async function handleSubmit(e) {
     e.preventDefault();
     //
+    setErrors((prev) => ({
+      ...prev,
+      fullName: { ...prev.fullName, touched: true },
+      email: { ...prev.email, touched: true },
+      password: { ...prev.password, touched: true },
+      confirmPassword: { ...prev.confirmPassword, touched: true },
+    }));
     const hasInvalidInputs = validinputsfunc(
       fullName,
       email,
@@ -162,13 +160,7 @@ function Register() {
 
   //
   return (
-    <div className="px-6 pt-6 h-dvh">
-      <LogoAndTitle
-        logo={<Logo width="32" height="32" />}
-        title="askanote"
-        className="flex gap-2 items-center mb-12"
-      />
-
+    <div className="px-6 pt-6 flex-1">
       <div className="text-center">
         <Paragraph className="formTitle" text="create an account" />
       </div>
@@ -252,9 +244,9 @@ function Register() {
         />
       </form>
 
-      <div className="text-center mt-4 flex items-center justify-center flex-wrap capitalize">
-        <Paragraph text="already have an acoount?" className="" />
-        <Link to="/login" className="text-orange-500 cursor-pointer ">
+      <div className="text-center mt-4 flex items-center justify-center flex-wrap capitalize gap-1">
+        <Paragraph text="already have an acoount ? " className="" />
+        <Link to="/" className="text-orange-500 cursor-pointer ">
           sign in
         </Link>
       </div>
