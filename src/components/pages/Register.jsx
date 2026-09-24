@@ -1,20 +1,17 @@
 // icons
-import Logo from "@/components/icons/Logo";
 import Paragraph from "../Ui/paragraph";
 //jsx
-import LogoAndTitle from "@/components/sections/LogoAndTitle";
 import InputWithTitle from "@/components/sections/InputWithTitle";
 import Button from "@/components/Ui/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useInput from "../hooks/useinput.js";
 //firebase
-import { doc, setDoc } from "firebase/firestore";
-import { auth, db } from "../../Firebase/firebase.js";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState, useEffect } from "react";
 import { livingInput } from "../../js/livingInput.js";
+import { sendEmailVerification } from "firebase/auth";
 //
 import { fullnameRegex, emailRegex, passwordRegex } from "../../js/regex.js";
+import senduserToFirebase from "../../js/senduserToFirebase.js";
 //
 import displayOrhideformErrors from "../../js/DispalyOrHideFormError.js";
 //
@@ -57,6 +54,7 @@ function validinputsfunc(
 
 //todo register cmponent function
 function Register() {
+  const navigate = useNavigate();
   //this for passowrds
   const [focused, setFocused] = useState({
     password: false,
@@ -99,25 +97,16 @@ function Register() {
       isvalid: false,
     },
   });
-  // useEffect(() => {
-  //   console.log("erros", errors);
-  // }, [errors]);
   //!
   const fullName = useInput({ initialValue: "", errors, setErrors });
   const email = useInput({ initialValue: "", errors, setErrors });
   const password = useInput({ initialValue: "", errors, setErrors });
   const confirmPassword = useInput({ initialValue: "", errors, setErrors });
-  //!
-  // useEffect(() => {
-  //   console.log("errors***###***", errors);
-  // }, [errors]);
-  //!
 
   //todo function when user clickes form submit
   //!
   async function handleSubmit(e) {
-    e.preventDefault();
-    //
+    e.preventDefault(); //
     setErrors((prev) => ({
       ...prev,
       fullName: { ...prev.fullName, touched: true },
@@ -132,29 +121,20 @@ function Register() {
       confirmPassword,
       setErrors,
     );
-    if (hasInvalidInputs) {
-      return;
-    }
-
-    // try {
-    //   const userCridenial = await createUserWithEmailAndPassword(
-    //     auth,
-    //     email.value,
-    //     password.value,
-    //   );
-    //   console.log(userCridenial, "usercridenial");g
-    //   const uid = userCridenial.user.uid;
-    //   await setDoc(doc(db, "users", uid), {
-    //     fullName: fullName.value,
-    //   });
-    //   console.log("registred succefully..");
-    // } catch (err) {
-    //   if (err.code === "auth/email-already-in-use") {
-    //     console.log("this email already exist");
-    //   } else {
-    //     console.log(err);
-    //   }
-    // }
+    if (hasInvalidInputs) return;
+    const userCridenial = await senduserToFirebase({
+      fullName: fullName.value,
+      email: email.value,
+      password: password.value,
+    });
+    await sendEmailVerification(userCridenial.user);
+    navigate("/verifyEmail", {
+      state: {
+        id: userCridenial.user.uid,
+        email: email.value,
+        fullName: fullName.value,
+      },
+    });
   }
   //!
 

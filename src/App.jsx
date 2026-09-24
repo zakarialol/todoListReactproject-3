@@ -1,8 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navigate } from "react-router-dom";
+//pages
 import Home from "./components/pages/Home";
 import Register from "./components/pages/Register";
 import Login from "./components/pages/Login";
+import VerifyEmail from "./components/pages/VerifyEmail.jsx";
+
 //
 import Logo from "./components/icons/Logo";
 import LogoAndTitle from "./components/sections/LogoAndTitle";
@@ -22,6 +25,7 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="home" element={<Home />} />
+            <Route path="verifyEmail" element={<VerifyEmail />} />
           </Routes>
           <Footer
             text={"made by zakarialol"}

@@ -21,6 +21,9 @@
   .inputSubBtn {
     @apply px-[17px] py-[5px] rounded-2xl cursor-pointer w-full capitalize;
   }
+  .normalParagraphStyle {
+    @apply text-[#717182] font-inter;
+  }
 }
 @layer utilities {
   .boxShadowGray {

@@ -16,6 +16,5 @@ function validPasswordCondition(password, setErrors) {
       },
     },
   }));
-  console.log("we are just making some cons");
 }
 export default validPasswordCondition;
