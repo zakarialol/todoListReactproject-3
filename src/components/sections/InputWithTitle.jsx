@@ -16,6 +16,7 @@ function InputWithTitle({
   setshowPassword,
   passwordCon,
   placeholder = "",
+  emailexistalready,
   ...props
 
   // ...props
@@ -82,7 +83,7 @@ function InputWithTitle({
 
         <div
           className={`overflow-hidden transition-[max-height] duration-500 ${
-            showError ? "max-h-20" : "max-h-0"
+            showError ? "max-h-40" : "max-h-0"
           }`}
         >
           {errorMsg}

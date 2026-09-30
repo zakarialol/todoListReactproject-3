@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import SvgButton from "../Ui/Svgbutton";
 import HidePasswordicon from "../icons/HidePassword";
 import ShowPasswordicon from "../icons/ShowPassword";
-import showPassword from "../icons/ShowPassword";
 function PasswordInput({
   type,
   title,

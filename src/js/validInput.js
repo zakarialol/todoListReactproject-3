@@ -6,6 +6,6 @@ const regexOBj = {
 };
 
 function validInput(value, name = "") {
-  return regexOBj[name].test(value);
+  return regexOBj[name].test(value.trim());
 }
 export default validInput;

@@ -22,8 +22,6 @@ app.use(
 );
 // this for form register register
 app.post("/register", (req, res) => {
-  console.log("connected....");
-  console.log(req.body, "req.body");
   res.status(200).json({
     succes: true,
   });

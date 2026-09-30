@@ -23,24 +23,24 @@ function validinputsfunc(
   setErrors,
 ) {
   const FormInputsErrorsObj = {};
-  if (!fullnameRegex.test(fullName.value)) {
+  if (!fullnameRegex.test(fullName.value.trim())) {
     FormInputsErrorsObj.fullName = true;
   } else {
     FormInputsErrorsObj.fullName = false;
   }
 
-  if (!emailRegex.test(email.value)) {
+  if (!emailRegex.test(email.value.trim())) {
     FormInputsErrorsObj.email = true;
   } else {
     FormInputsErrorsObj.email = false;
   }
-  if (!passwordRegex.test(password.value)) {
+  if (!passwordRegex.test(password.value.trim())) {
     FormInputsErrorsObj.password = true;
   } else {
     FormInputsErrorsObj.password = false;
   }
 
-  if (password.value !== confirmPassword.value) {
+  if (password.value !== confirmPassword.value.trim()) {
     FormInputsErrorsObj.confirmPassword = true;
   } else {
     FormInputsErrorsObj.confirmPassword = false;
@@ -54,6 +54,8 @@ function validinputsfunc(
 
 //todo register cmponent function
 function Register() {
+  //state for email if exist
+  const [emailexistalready, setEmailExistAlready] = useState(false);
   const navigate = useNavigate();
   //this for passowrds
   const [focused, setFocused] = useState({
@@ -105,8 +107,9 @@ function Register() {
 
   //todo function when user clickes form submit
   //!
-  async function handleSubmit(e) {
-    e.preventDefault(); //
+  async function handleSubmit(e, setEmailExistAlready, setErrors) {
+    e.preventDefault();
+    //
     setErrors((prev) => ({
       ...prev,
       fullName: { ...prev.fullName, touched: true },
@@ -126,7 +129,11 @@ function Register() {
       fullName: fullName.value,
       email: email.value,
       password: password.value,
+      setEmailExistAlready,
+      setErrors,
     });
+    console.log(userCridenial, "userCridenial");
+    if (!userCridenial) return;
     await sendEmailVerification(userCridenial.user);
     navigate("/verifyEmail", {
       state: {
@@ -137,14 +144,18 @@ function Register() {
     });
   }
   //!
-
   //
   return (
     <div className="px-6 pt-6 flex-1">
       <div className="text-center">
         <Paragraph className="formTitle" text="create an account" />
       </div>
-      <form action="" onSubmit={handleSubmit}>
+      <form
+        action=""
+        onSubmit={(e) => {
+          handleSubmit(e, setEmailExistAlready, setErrors);
+        }}
+      >
         <InputWithTitle
           title="full name"
           name="fullName"
@@ -164,12 +175,17 @@ function Register() {
           name="email"
           type="email"
           showPassword={showPassword}
-          error={errors.email["msg"]}
-          showError={errors.email.showError}
-          {...email}
+          error={
+            emailexistalready
+              ? "this email already registred"
+              : errors.email["msg"]
+          }
+          emailexistalready={emailexistalready}
           onblur={(e) => {
             livingInput(e, setErrors);
           }}
+          showError={errors.email.showError}
+          {...email}
         />
         <InputWithTitle
           title={"password"}
@@ -209,7 +225,6 @@ function Register() {
             setshowPassword((prev) => ({ ...prev, confirmPassword: false }));
           }}
           onfocus={() => {
-            // setFocused(focused.confirmPassword);
             setFocused((prev) => ({
               ...prev,
               confirmPassword: true,

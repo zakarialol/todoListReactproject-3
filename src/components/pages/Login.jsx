@@ -1,32 +1,28 @@
 import { useState } from "react";
 import Paragraph from "../Ui/paragraph";
 import InputWithTitle from "../sections/InputWithTitle";
-import PasswordInput from "../sections/PasswordInput";
+import ClasicTitleAndInput from "../sections/classicTitleAndInput";
 import Button from "../ui/Button";
 import { Link } from "react-router-dom";
+//react
+import { useNavigate } from "react-router-dom";
+//
+import signInWithUserAndPassword from "../../js/signInWithUserPassword";
+//
+//firebase
 //
 import { livingInput } from "../../js/livingInput";
 //
 import useInput from "../hooks/useinput";
 //
-import { validEmail, validPassword } from "../../js/checkInputsValidation";
+import { validEmail } from "../../js/checkInputsValidation";
 //
 //
 function Login() {
+  const navigate = useNavigate();
   const [errors, setErrors] = useState({
     email: {
       msg: "email not valid",
-      showError: false,
-      touched: false,
-      isvalid: false,
-    },
-    password: {
-      msg: "password mast include uppercase letter,must include special caracter or number,must be more than 8 caracters",
-      passwordCon: {
-        upperCase: false,
-        specialCaracter: false,
-        moreThanEightLetters: false,
-      },
       showError: false,
       touched: false,
       isvalid: false,
@@ -35,14 +31,13 @@ function Login() {
   //!state
   const [focused, setfocused] = useState(false);
   const [showPassword, setshowPassword] = useState(false);
+  const [passwordInputValue, setPasswordInputValue] = useState("");
   //
   const email = useInput({ initialValue: "", errors, setErrors });
-  const password = useInput({ initialValue: "", errors, setErrors });
   //hanlde sumbit
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     const emailisValid = validEmail(email.value);
-    const passwordisValid = validPassword(password.value);
     setErrors((prev) => ({
       ...prev,
       ["email"]: {
@@ -50,13 +45,13 @@ function Login() {
         showError: !emailisValid,
         touched: true,
       },
-      ["password"]: {
-        ...prev.password,
-        showError: !passwordisValid,
-        touched: true,
-      },
     }));
-    if (!emailisValid || !passwordisValid) return;
+    if (!emailisValid) return;
+    const result = await signInWithUserAndPassword({
+      user: email.value,
+      password: passwordInputValue,
+    });
+    if (result) navigate("/home");
   }
   //
   // this when the user lives the input
@@ -79,25 +74,24 @@ function Login() {
               livingInput(e, setErrors);
             }}
           />
-          <PasswordInput
+          <ClasicTitleAndInput
             type={showPassword ? "text" : "password"}
             title="password"
             name="password"
-            onblur={() => {
+            onblur={(e) => {
               setfocused(false);
               setshowPassword(false);
             }}
-            error={errors.password["msg"]}
             focused={focused}
             onfocuse={(e) => {
               setfocused(true);
-              livingInput(e, setErrors, password);
+            }}
+            value={passwordInputValue}
+            onChange={(e) => {
+              setPasswordInputValue(e.target.value);
             }}
             showPassword={showPassword}
             setshowPassword={setshowPassword}
-            showError={errors.password.showError}
-            passwordCon={errors.password.passwordCon}
-            {...password}
           />
           <Button
             className="inputSubBtn text-white bg-gradient-to-r from-orange-400 to-orange-700 mb-2 mt-3"

@@ -1,5 +1,5 @@
-function displayOrhideformErrors(ErrorsObj, setState) {
-  setState((prev) => {
+function displayOrhideformErrors(ErrorsObj, setError) {
+  setError((prev) => {
     const updated = { ...prev };
     for (const key in ErrorsObj) {
       updated[key] = {
