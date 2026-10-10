@@ -7,7 +7,7 @@ async function signInWithUserAndPassword({ user, password }) {
     const result = await signInWithEmailAndPassword(auth, user, password);
     return result;
   } catch (err) {
-    console.log(err);
+    throw err;
   }
 }
 export default signInWithUserAndPassword;

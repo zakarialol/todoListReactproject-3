@@ -238,7 +238,6 @@ function Register() {
           text="sign up"
         />
       </form>
-
       <div className="text-center mt-4 flex items-center justify-center flex-wrap capitalize gap-1">
         <Paragraph text="already have an acoount ? " className="" />
         <Link to="/" className="text-orange-500 cursor-pointer ">

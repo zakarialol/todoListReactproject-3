@@ -2,9 +2,8 @@
 import { useState, useEffect } from "react";
 //firebase
 import { sendEmailVerification } from "firebase/auth";
-import { auth } from "../../Firebase/firebase";
 //
-function resendBtnWithCountDown({}) {
+function resendBtnWithCountDown({ sendEmailToUser }) {
   const [count, setCount] = useState(30);
   const [runInterval, setRunInterval] = useState(true);
   useEffect(() => {
@@ -23,7 +22,7 @@ function resendBtnWithCountDown({}) {
   }, [runInterval]);
   async function resend() {
     try {
-      await sendEmailVerification(auth.currentUser);
+      await sendEmailToUser();
     } catch (error) {
       console.log(error);
     }

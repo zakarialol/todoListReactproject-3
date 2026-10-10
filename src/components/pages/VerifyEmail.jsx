@@ -2,6 +2,8 @@ import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { auth } from "../../Firebase/firebase";
 import { useNavigate } from "react-router-dom";
+//
+import { sendEmailVerification } from "firebase/auth";
 //jsx
 import ResendBtnWithCountDown from "../sections/resendButtonWithCountDown";
 //svgs or icons
@@ -64,7 +66,9 @@ function VerifyEmail() {
             />
           </div>
         </div>
-        <ResendBtnWithCountDown />
+        <ResendBtnWithCountDown
+          sendEmailToUser={() => sendEmailVerification(user)}
+        />
       </div>
     </>
   );

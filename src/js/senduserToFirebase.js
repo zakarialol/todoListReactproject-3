@@ -43,11 +43,11 @@ async function sendUserToFirebase({
             showError: false,
           },
         }));
-      }, 1500);
+      }, 500);
       //restoring the error msg
       setTimeout(() => {
         setEmailExistAlready(false);
-      }, 2000);
+      }, 1000);
     } else {
       console.log(err);
     }
