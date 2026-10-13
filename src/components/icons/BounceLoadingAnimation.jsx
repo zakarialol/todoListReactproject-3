@@ -1,143 +1,88 @@
-function bounceLoadingAnimation() {
+function BounceLoadingAnimation({
+  width = "48px",
+  height = "24px",
+  className = "",
+}) {
+  const dots = [
+    {
+      x: 100,
+      begin: "0s",
+      keyTimes: "0; 0.195122; 0.682927; 1",
+      values: "100 145; 100 145; 100 125; 100 125",
+      scaleTimes: "0; 0.195122; 0.682927; 1",
+      scaleValues: "0.7 0.7; 0.7 0.7; 1 1; 1 1",
+    },
+    {
+      x: 250,
+      begin: "0s",
+      keyTimes: "0; 0.097561; 0.585366; 1",
+      values: "250 145; 250 145; 250 125; 250 125",
+      scaleTimes: "0; 0.097561; 0.585366; 1",
+      scaleValues: "0.7 0.7; 0.7 0.7; 1 1; 1 1",
+    },
+    {
+      x: 400,
+      begin: "0s",
+      keyTimes: "0; 0.487805; 1",
+      values: "400 145; 400 125; 400 125",
+      scaleTimes: "0; 0.487805; 1",
+      scaleValues: "0.7 0.7; 1 1; 1 1",
+    },
+  ];
+
   return (
     <svg
+      className={className}
+      width={width}
+      height={height}
+      viewBox="0 0 500 250"
       fill="none"
-      height="100%"
-      width="100%"
-      viewBox="0 0 500 500"
-      xmlns:xlink="http://www.w3.org/1999/xlink"
       xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
     >
-      <g id="i0">
-        <g transform="translate(290,250)">
-          <animateTransform
-            repeatCount="indefinite"
-            type="translate"
-            attributeName="transform"
-            dur="1.367s"
-            begin="0s"
-            calcMode="spline"
-            values="290 270; 290 270; 290 250; 290 250"
-            keyTimes="0; 0.195122; 0.682927; 1"
-            keySplines="0 0 1 1; 0.333 0 0.667 1; 0 0 1 1"
-            fill="freeze"
-          />
-          <g transform="scale(1,1)">
+      {dots.map((dot, index) => (
+        <g key={dot.x}>
+          <g transform={`translate(${dot.x},125)`}>
             <animateTransform
-              repeatCount="indefinite"
-              type="scale"
               attributeName="transform"
-              dur="1.367s"
-              begin="0s"
+              type="translate"
+              values={dot.values}
+              keyTimes={dot.keyTimes}
+              keySplines={
+                index === 2
+                  ? "0.333 0 0.667 1; 0 0 1 1"
+                  : "0 0 1 1; 0.333 0 0.667 1; 0 0 1 1"
+              }
               calcMode="spline"
-              values="0.7 0.7; 0.7 0.7; 1 1; 1 1"
-              keyTimes="0; 0.195122; 0.682927; 1"
-              keySplines="0 0 1 1; 0.333 0 0.667 1; 0 0 1 1"
+              dur="1.367s"
+              repeatCount="indefinite"
               fill="freeze"
             />
-            <g transform="translate(0,0)">
-              <g id="i1">
-                <ellipse
-                  ry="10"
-                  rx="10"
-                  cy="0"
-                  cx="0"
-                  strokeWidth="0"
-                  stroke="#e8e8e8"
-                  fill="#9babc6"
-                />
-              </g>
+
+            <g>
+              <animateTransform
+                attributeName="transform"
+                type="scale"
+                values={dot.scaleValues}
+                keyTimes={dot.scaleTimes}
+                keySplines={
+                  index === 2
+                    ? "0.333 0 0.667 1; 0 0 1 1"
+                    : "0 0 1 1; 0.333 0 0.667 1; 0 0 1 1"
+                }
+                calcMode="spline"
+                dur="1.367s"
+                repeatCount="indefinite"
+                fill="freeze"
+              />
+
+              <circle cx="0" cy="0" r="30" fill="white" />
             </g>
           </g>
         </g>
-      </g>
-      <g id="i2">
-        <g transform="translate(250,250)">
-          <animateTransform
-            repeatCount="indefinite"
-            type="translate"
-            attributeName="transform"
-            dur="1.367s"
-            begin="0s"
-            calcMode="spline"
-            values="250 270; 250 270; 250 250; 250 250"
-            keyTimes="0; 0.097561; 0.585366; 1"
-            keySplines="0 0 1 1; 0.333 0 0.667 1; 0 0 1 1"
-            fill="freeze"
-          />
-          <g transform="scale(1,1)">
-            <animateTransform
-              repeatCount="indefinite"
-              type="scale"
-              attributeName="transform"
-              dur="1.367s"
-              begin="0s"
-              calcMode="spline"
-              values="0.7 0.7; 0.7 0.7; 1 1; 1 1"
-              keyTimes="0; 0.097561; 0.585366; 1"
-              keySplines="0 0 1 1; 0.333 0 0.667 1; 0 0 1 1"
-              fill="freeze"
-            />
-            <g transform="translate(0,0)">
-              <g id="i1">
-                <ellipse
-                  ry="10"
-                  rx="10"
-                  cy="0"
-                  cx="0"
-                  strokeWidth="0"
-                  stroke="#e8e8e8"
-                  fill="#9babc6"
-                />
-              </g>
-            </g>
-          </g>
-        </g>
-      </g>
-      <g id="i3">
-        <g transform="translate(210,250)">
-          <animateTransform
-            repeatCount="indefinite"
-            type="translate"
-            attributeName="transform"
-            dur="1.367s"
-            begin="0s"
-            calcMode="spline"
-            values="210 270; 210 250; 210 250"
-            keyTimes="0; 0.487805; 1"
-            keySplines="0.333 0 0.667 1; 0 0 1 1"
-            fill="freeze"
-          />
-          <g transform="scale(1,1)">
-            <animateTransform
-              repeatCount="indefinite"
-              type="scale"
-              attributeName="transform"
-              dur="1.367s"
-              begin="0s"
-              calcMode="spline"
-              values="0.7 0.7; 1 1; 1 1"
-              keyTimes="0; 0.487805; 1"
-              keySplines="0.333 0 0.667 1; 0 0 1 1"
-              fill="freeze"
-            />
-            <g transform="translate(0,0)">
-              <g id="i1">
-                <ellipse
-                  ry="10"
-                  rx="10"
-                  cy="0"
-                  cx="0"
-                  strokeWidth="0"
-                  stroke="#e8e8e8"
-                  fill="#9babc6"
-                />
-              </g>
-            </g>
-          </g>
-        </g>
-      </g>
+      ))}
     </svg>
   );
 }
-export default bounceLoadingAnimation;
+
+export default BounceLoadingAnimation;

@@ -14,16 +14,22 @@ import SvgButton from "@/components/Ui/Svgbutton";
 import XmarkIcon from "@/components/icons/Xmark";
 //jsx
 import Profile from "./Profile";
+import ProfileInfo from "./profileInfo";
+import { useState } from "react";
+//
 function OpenSideModale({ className = "", OpenSideModale, setOpenSideModale }) {
   const navigate = useNavigate();
+  const [prfileInfo, setProfileInfo] = useState(false);
   function profile() {
     console.log("profile...");
+    setProfileInfo(true);
   }
   function calender() {
     console.log("caledner...");
   }
   function contact() {
     console.log("contact...");
+    navigate("/contactUs");
   }
   function bin() {
     console.log("bin...");
@@ -37,7 +43,12 @@ function OpenSideModale({ className = "", OpenSideModale, setOpenSideModale }) {
   const menuBtns = [
     { icon: ProfileIcon, text: "profile", id: "profile", onclick: profile },
     { icon: CalenderIcon, text: "calender", id: "calender", onclick: calender },
-    { icon: ContactIcon, text: "contact", id: "contacticon", onclick: contact },
+    {
+      icon: ContactIcon,
+      text: "contact us",
+      id: "contacticon",
+      onclick: contact,
+    },
     { icon: BinIcon, text: "bin", id: "bin", onclick: bin },
     { icon: LogOutIcon, text: "log out", id: "logout", onclick: logout },
   ];
@@ -71,6 +82,13 @@ function OpenSideModale({ className = "", OpenSideModale, setOpenSideModale }) {
           </button>
         );
       })}
+      {/* //profile info------- */}
+      {prfileInfo && (
+        <ProfileInfo
+          setProfileInfo={setProfileInfo}
+          className="fixed inset-0 bg-black/30 flex items-center justify-center"
+        />
+      )}
     </div>
   );
 }

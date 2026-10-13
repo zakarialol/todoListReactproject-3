@@ -51,15 +51,28 @@ function InputWithTitle({
       <div className="mb-4">
         <label className="block inputTitle">{title}</label>
         <div className="relative">
-          <input
-            type={type}
-            name={name}
-            onBlur={onblur}
-            onFocus={onfocus}
-            placeholder={placeholder}
-            {...props}
-            className="registerInput"
-          />
+          {type === "textarea" ? (
+            <textarea
+              type={type}
+              name={name}
+              onBlur={onblur}
+              onFocus={onfocus}
+              placeholder={placeholder}
+              {...props}
+              className="registerInput resize-none"
+              rows={3}
+            ></textarea>
+          ) : (
+            <input
+              type={type}
+              name={name}
+              onBlur={onblur}
+              onFocus={onfocus}
+              placeholder={placeholder}
+              {...props}
+              className="registerInput"
+            />
+          )}
           {focused && (
             <SvgButton
               type="button"

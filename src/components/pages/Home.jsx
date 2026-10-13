@@ -113,7 +113,7 @@ function Home() {
         <LogoAndTitle
           logo={<Logo width="32" height="32" />}
           title="askanote"
-          className="flex gap-2 items-center fixed top-0 w-full bg-white py-6 z-50"
+          className="flex gap-2 items-center fixed top-0 w-full bg-white py-6 z-30"
         />
         <div className="flex justify-between">
           <Header />

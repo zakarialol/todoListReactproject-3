@@ -20,6 +20,7 @@ async function sendUserToFirebase({
     const uid = userCridenial.user.uid;
     await setDoc(doc(db, "users", uid), {
       fullName: fullName,
+      email,
     });
     return userCridenial;
   } catch (err) {

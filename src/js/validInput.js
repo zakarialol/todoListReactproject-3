@@ -1,8 +1,16 @@
-import { fullnameRegex, emailRegex, passwordRegex } from "./regex.js";
+import {
+  fullnameRegex,
+  emailRegex,
+  passwordRegex,
+  nameRegex,
+  subjectRegex,
+} from "./regex.js";
 const regexOBj = {
   fullName: fullnameRegex,
   email: emailRegex,
   password: passwordRegex,
+  name: nameRegex,
+  subject: subjectRegex,
 };
 
 function validInput(value, name = "") {

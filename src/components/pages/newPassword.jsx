@@ -4,7 +4,7 @@ import InputWithTitle from "../sections/InputWithTitle";
 //react
 import { useNavigate } from "react-router-dom";
 //jsx
-import Button from "../ui/Button";
+import Button from "../Ui/Button";
 //
 import { livingInput } from "../../js/livingInput";
 //

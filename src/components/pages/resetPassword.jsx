@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Paragraph from "../Ui/paragraph";
 import InputWithTitle from "../sections/InputWithTitle";
-import Button from "../ui/Button";
+import Button from "../Ui/Button";
 //firebase
 import { sendPasswordResetEmail } from "firebase/auth";
 //react

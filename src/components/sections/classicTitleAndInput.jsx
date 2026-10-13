@@ -10,6 +10,7 @@ function clasicTitleAndInput({
   onfocuse,
   showPassword,
   setshowPassword,
+  required = "",
   ...props
 }) {
   //
@@ -19,6 +20,7 @@ function clasicTitleAndInput({
         <label className="block inputTitle">{title}</label>
         <div className="relative">
           <input
+            required
             type={type}
             name={name}
             onBlur={onblur}

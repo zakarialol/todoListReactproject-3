@@ -5,6 +5,8 @@ const passwordRegex =
 const hasUppercase = /[A-Z]/;
 const hasEnoughCharacters = /.{8,}/;
 const hasSpecialCharacter = /[^A-Za-z0-9]/;
+const nameRegex = /^[\p{L}\p{M}]+(?:[ '\u2019-][\p{L}\p{M}]+)*$/u;
+const subjectRegex = /^[\p{L}\p{M}\p{N}][\p{L}\p{M}\p{N} .,!?'"()&:/_-]*$/u;
 
 export {
   fullnameRegex,
@@ -13,4 +15,6 @@ export {
   hasUppercase,
   hasEnoughCharacters,
   hasSpecialCharacter,
+  nameRegex,
+  subjectRegex,
 };

@@ -1,7 +1,7 @@
 import { useState } from "react";
 //icons
 import CheckIcon from "../icons/checkIcon";
-function RememberMeCheckBox({ remmberMe, setRememberMe }) {
+function RememberMeCheckBox({ remmberMe, setRememberMe, text }) {
   return (
     <div className="flex gap-2 items-center">
       <div>
@@ -33,7 +33,7 @@ function RememberMeCheckBox({ remmberMe, setRememberMe }) {
           setRememberMe(!remmberMe);
         }}
       >
-        remember Me
+        {text}
       </button>
     </div>
   );

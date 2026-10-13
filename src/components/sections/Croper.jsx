@@ -1,4 +1,4 @@
-import Button from "../ui/Button";
+import Button from "../Ui/Button";
 import { useState } from "react";
 import Cropper from "react-easy-crop";
 import getCroppedImage from "../../js/getCroppedImage.js";
