@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Paragraph from "../Ui/paragraph";
+import Paragraph from "../Ui/Paragraph";
 import InputWithTitle from "../sections/InputWithTitle";
 //react
 import { useNavigate } from "react-router-dom";
@@ -46,8 +46,16 @@ function Newpassword() {
     },
   });
   //
-  const password = useInput({ initialValue: "", errors, setErrors });
-  const confirmPassword = useInput({ initialValue: "", errors, setErrors });
+  const { setValue: setPasswordValue, ...password } = useInput({
+    initialValue: "",
+    errors,
+    setErrors,
+  });
+  const { setValue: setConfirmPassword, ...confirmPassword } = useInput({
+    initialValue: "",
+    errors,
+    setErrors,
+  });
   //hanlde sumbit
   async function handleSubmit(e) {
     e.preventDefault();

@@ -11,6 +11,8 @@ import BounceLoadingAnimation from "../icons/BounceLoadingAnimation";
 import { useNavigate } from "react-router-dom";
 //
 import signInWithUserAndPassword from "../../js/signInWithUserPassword";
+import ClasicTitleAndInput from "../sections/classicTitleAndInput";
+
 //
 //firebase
 import {
@@ -51,7 +53,11 @@ function Login() {
     useState(false);
   const [loginAnimation, setloginAnimation] = useState(false);
   //
-  const email = useInput({ initialValue: "", errors, setErrors });
+  const { setValue, ...email } = useInput({
+    initialValue: "",
+    errors,
+    setErrors,
+  });
   //hanlde sumbit
   async function handleSubmit(e) {
     e.preventDefault();
@@ -115,7 +121,7 @@ function Login() {
         <div
           className={`overflow-hidden transition-[max-height] duration-500 font-inter text-red-500 bg-[rgba(239_68_68_/_.1)] w-fit mx-auto rounded-lg ${userOrPasswordIncorretError ? "max-h-10" : "max-h-0"}`}
         >
-          <p className="px-2 py-1 ">user or password incorrect</p>
+          <p className="px-2 py-1 ">email or password incorrect</p>
         </div>
         {/* //*form ------------------------------------------------------ */}
         <form action="" onSubmit={handleSubmit}>
@@ -135,6 +141,7 @@ function Login() {
             type={showPassword ? "text" : "password"}
             title="password"
             name="password"
+            autoComplete="email"
             required={"required"}
             onblur={(e) => {
               setfocused(false);
@@ -151,7 +158,7 @@ function Login() {
             showPassword={showPassword}
             setshowPassword={setshowPassword}
           />
-          <div className="flex justify-between gap-2 mb-2">
+          <div className="flex justify-between gap-2 mb-6">
             <RememberMeCheckBox
               remmberMe={remmberMe}
               setRememberMe={setRememberMe}

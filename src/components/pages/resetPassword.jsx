@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Paragraph from "../Ui/paragraph";
+import Paragraph from "../Ui/Paragraph";
 import InputWithTitle from "../sections/InputWithTitle";
 import Button from "../Ui/Button";
 //firebase
@@ -28,7 +28,11 @@ function ResetPassword() {
   });
   //!state
   //
-  const email = useInput({ initialValue: "", errors, setErrors });
+  const { setValue: setEmailvalue, ...email } = useInput({
+    initialValue: "",
+    errors,
+    setErrors,
+  });
   //hanlde sumbit
   async function handleSubmit(e) {
     e.preventDefault();

@@ -4,9 +4,15 @@ function Button({
   onClick,
   type = "button",
   animation,
+  disabled,
 }) {
   return (
-    <button onClick={onClick} className={className}>
+    <button
+      onClick={onClick}
+      type={type}
+      className={className}
+      disabled={disabled}
+    >
       {text}
       {animation}
     </button>

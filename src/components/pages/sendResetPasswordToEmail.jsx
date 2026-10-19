@@ -8,7 +8,7 @@ import EmailIcon from "../icons/emailIcon";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../Firebase/firebase";
 //
-import Paragraph from "../Ui/paragraph";
+import Paragraph from "../Ui/Paragraph";
 import Svg from "../Ui/svg";
 import Span from "../Ui/span";
 //

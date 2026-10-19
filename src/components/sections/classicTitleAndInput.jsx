@@ -11,6 +11,7 @@ function clasicTitleAndInput({
   showPassword,
   setshowPassword,
   required = "",
+  autoComplete = "",
   ...props
 }) {
   //
@@ -25,6 +26,7 @@ function clasicTitleAndInput({
             name={name}
             onBlur={onblur}
             onFocus={onfocuse}
+            autoComplete={autoComplete}
             className="registerInput"
             {...props}
           />

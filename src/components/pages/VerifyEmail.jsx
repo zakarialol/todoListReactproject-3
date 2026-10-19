@@ -9,7 +9,7 @@ import ResendBtnWithCountDown from "../sections/resendButtonWithCountDown";
 //svgs or icons
 import EmailIcon from "../icons/emailIcon";
 //
-import Paragraph from "../Ui/paragraph";
+import Paragraph from "../Ui/Paragraph";
 import Svg from "../Ui/svg";
 import Span from "../Ui/span";
 //

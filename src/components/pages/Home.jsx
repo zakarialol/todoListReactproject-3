@@ -13,11 +13,14 @@ import Category from "../sections/Category";
 import Task from "../sections/Task";
 import IconButton from "../Ui/IconButton";
 import AddTask from "../sections/AddTask";
+import EditTask from "../sections/EditTask.jsx";
 import SvgButton from "../../components/Ui/Svgbutton.jsx";
 import OpenSideModaleMenu from "@/components/sections/OpenSideModal";
 import Footer from "../sections/footer.jsx";
 import LogoAndTitle from "../sections/LogoAndTitle.jsx";
 import Logo from "../icons/Logo.jsx";
+import debtAndleons from "../../assets/icons/dollar.png";
+import edication from "../../assets/icons/graduation-hat.png";
 //js
 import { GenirateId } from "@/js/genirateId.js";
 import getUserFromDB from "../../js/getuserFromDb.js";
@@ -44,7 +47,7 @@ function Home() {
     }
     laoduser();
   }, []);
-  //
+  //categories ------------------------
   const [category, setCategory] = useState([
     {
       id: "1",
@@ -66,6 +69,18 @@ function Home() {
     },
     {
       id: "4",
+      type: "education",
+      img: edication,
+      className: "bg-[RGB(0_0_255_/0.1)]",
+    },
+    {
+      id: "5",
+      type: "debts",
+      img: debtAndleons,
+      className: "bg-[RGB(0_0_0_/0.1)]",
+    },
+    {
+      id: "6",
       type: "others",
       img: otherImg,
       className: "bg-[RGB(144_137_134_/0.1)]",
@@ -104,6 +119,8 @@ function Home() {
     if (selectedCategory === "work") return task.type === selectedCategory;
     if (selectedCategory === "mental health")
       return task.type === selectedCategory;
+    if (selectedCategory === "education") return task.type === selectedCategory;
+    if (selectedCategory === "debts") return task.type === selectedCategory;
     if (selectedCategory === "others") return task.type === selectedCategory;
     return task;
   });
@@ -158,11 +175,12 @@ function Home() {
             setValue={setValue}
             selected={selected}
             setSelected={setSelected}
+            setHide={setHide}
           />
         )}
         {/* edit task */}
         {edit && (
-          <AddTask
+          <EditTask
             value={value}
             setValue={setValue}
             onClick={() => setEdit(false)}
@@ -176,7 +194,7 @@ function Home() {
           />
         )}
 
-        <div className="overflow-auto h-[300px] relative">
+        <div className="c:\Users\hphp7\Downloads\dollar.pngrelative">
           {filterdTasks.map((task) => (
             <Task
               key={task?.id}

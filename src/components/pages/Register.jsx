@@ -1,5 +1,5 @@
 // icons
-import Paragraph from "../Ui/paragraph";
+import Paragraph from "../Ui/Paragraph";
 //jsx
 import InputWithTitle from "@/components/sections/InputWithTitle";
 import Button from "@/components/Ui/Button";
@@ -100,10 +100,26 @@ function Register() {
     },
   });
   //!
-  const fullName = useInput({ initialValue: "", errors, setErrors });
-  const email = useInput({ initialValue: "", errors, setErrors });
-  const password = useInput({ initialValue: "", errors, setErrors });
-  const confirmPassword = useInput({ initialValue: "", errors, setErrors });
+  const { setValue: setfullName, ...fullName } = useInput({
+    initialValue: "",
+    errors,
+    setErrors,
+  });
+  const { setValue: setEmail, ...email } = useInput({
+    initialValue: "",
+    errors,
+    setErrors,
+  });
+  const { setValue: setPassword, ...password } = useInput({
+    initialValue: "",
+    errors,
+    setErrors,
+  });
+  const { setValue: setconfirm, ...confirmPassword } = useInput({
+    initialValue: "",
+    errors,
+    setErrors,
+  });
 
   //todo function when user clickes form submit
   //!

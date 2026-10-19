@@ -40,6 +40,7 @@ function useInput({ initialValue = "", errors = {}, setErrors = {} }) {
   //
   return {
     value,
+    setValue,
     onChange: (e) => {
       handleChange(e, errors);
     },
