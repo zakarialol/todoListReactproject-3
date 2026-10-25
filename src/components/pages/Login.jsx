@@ -141,7 +141,7 @@ function Login() {
             type={showPassword ? "text" : "password"}
             title="password"
             name="password"
-            autoComplete="email"
+            autoComplete="password"
             required={"required"}
             onblur={(e) => {
               setfocused(false);

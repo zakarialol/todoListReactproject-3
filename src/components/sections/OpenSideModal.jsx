@@ -21,21 +21,18 @@ function OpenSideModale({ className = "", OpenSideModale, setOpenSideModale }) {
   const navigate = useNavigate();
   const [prfileInfo, setProfileInfo] = useState(false);
   function profile() {
-    console.log("profile...");
     setProfileInfo(true);
   }
   function calender() {
     console.log("caledner...");
   }
   function contact() {
-    console.log("contact...");
     navigate("/contactUs");
   }
   function bin() {
-    console.log("bin...");
+    navigate("/bin");
   }
   async function logout() {
-    console.log("logout...");
     await signOut(auth);
   }
 

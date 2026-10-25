@@ -25,7 +25,6 @@ async function sendUserToFirebase({
     return userCridenial;
   } catch (err) {
     if (err.code === "auth/email-already-in-use") {
-      console.log("this email exist already ");
       setEmailExistAlready(true);
       //show the error
       setErrors((prev) => ({

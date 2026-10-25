@@ -23,7 +23,6 @@ function Profile({ className = "" }) {
         const userDoc = await getDoc(userRef);
         if (userDoc) {
           const userInfo = userDoc.data();
-          console.log(userInfo, "userInfo");
           setFinalProfilePicture(userInfo.profileImageUrl);
         } else {
           console.log("user document don't exist");

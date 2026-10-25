@@ -7,11 +7,12 @@ import VerifyEmail from "./components/pages/VerifyEmail.jsx";
 import ResetPassword from "./components/pages/resetPassword.jsx";
 import SendResetPasswordToEmail from "./components/pages/sendResetPasswordToEmail.jsx";
 import ContactUs from "./components/pages/contactUs.jsx";
-import Newpassword from "./components/pages/newPassword.jsx";
 //protectd Rout
 import ProtectRoute from "./components/protectedRoute/ProtectRout.jsx";
 //outlet
 import Layout from "./components/Ui/Layout.jsx";
+//bin
+import BinPage from "./components/bin/BinPage.jsx";
 //
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
                 path="/sendResetPasswordToEmail"
                 element={<SendResetPasswordToEmail />}
               />
+              <Route path="/bin" element={<BinPage />} />
               {/* <Route path="/newPassword" element={<Newpassword />} /> */}
               <Route path="/contactUs" element={<ContactUs />} />
             </Route>

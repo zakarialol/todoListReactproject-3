@@ -148,7 +148,6 @@ function Register() {
       setEmailExistAlready,
       setErrors,
     });
-    console.log(userCridenial, "userCridenial");
     if (!userCridenial) return;
     await sendEmailVerification(userCridenial.user);
     navigate("/verifyEmail", {

@@ -1,5 +1,8 @@
 //react
 import { useState, useEffect } from "react";
+//firebase
+import { collection, getDocs } from "firebase/firestore";
+import { db, auth } from "../../Firebase/firebase.js";
 //imgs
 import healthImg from "@/assets/icons/healthImg.png";
 import mentalHealthImg from "@/assets/icons//mentalHealthImg.png";
@@ -21,15 +24,16 @@ import LogoAndTitle from "../sections/LogoAndTitle.jsx";
 import Logo from "../icons/Logo.jsx";
 import debtAndleons from "../../assets/icons/dollar.png";
 import edication from "../../assets/icons/graduation-hat.png";
+import UndoTask from "../sections/undoAskaNote.jsx";
 //js
-import { GenirateId } from "@/js/genirateId.js";
 import getUserFromDB from "../../js/getuserFromDb.js";
-//firebase
-import { auth } from "../../Firebase/firebase.js";
 //context
 import { UserDataContext } from "../../context/userdataContext.jsx";
 // import categoryIncrementFunc from "@/js/incrementCategory.js";
 function Home() {
+  //user
+  const user = auth.currentUser;
+  //
   const [hide, setHide] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
   const [edit, setEdit] = useState(false);
@@ -39,6 +43,26 @@ function Home() {
   const [OpenSideModale, setOpenSideModale] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [userData, setUserData] = useState("");
+  const [deletedTask, setDeletedTask] = useState();
+  //this for the bin
+  const [binTasks, setBinTasks] = useState([]);
+  //useeffect for the getting tasks
+
+  useEffect(() => {
+    async function getTasks() {
+      const tasksRef = collection(db, "users", user.uid, "tasks");
+
+      const snapshot = await getDocs(tasksRef);
+
+      const tasksData = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setTasks(tasksData);
+    }
+
+    getTasks();
+  }, [user.uid]);
   //
   const data = useEffect(() => {
     async function laoduser() {
@@ -46,7 +70,7 @@ function Home() {
       setUserData(data);
     }
     laoduser();
-  }, []);
+  }, [tasks]);
   //categories ------------------------
   const [category, setCategory] = useState([
     {
@@ -86,33 +110,6 @@ function Home() {
       className: "bg-[RGB(144_137_134_/0.1)]",
     },
   ]);
-  //add task
-  function addTask(e) {
-    setTasks([
-      ...tasks,
-      {
-        id: GenirateId(tasks),
-        task: value,
-        date: new Date().toLocaleString(),
-        type: selected || "others",
-      },
-    ]);
-    setValue("");
-    setSelected("");
-  }
-  // edit task
-  function editTask(selectedTask) {
-    setTasks(
-      tasks.map((task) => {
-        if (task?.id === selectedTask.id) {
-          task.task = value;
-          task.type = selected || "others";
-        }
-        return task;
-      }),
-    );
-    setEdit(false);
-  }
   // filter the task
   const filterdTasks = tasks?.filter((task) => {
     if (selectedCategory === "health") return task.type === selectedCategory;
@@ -125,7 +122,16 @@ function Home() {
     return task;
   });
   return (
-    <UserDataContext.Provider value={{ userData }}>
+    <UserDataContext.Provider
+      value={{
+        userData,
+        tasks,
+        deletedTask,
+        setDeletedTask,
+        setBinTasks,
+        setTasks,
+      }}
+    >
       <div className="px-6 pt-[80px] flex min-h-dvh flex-col">
         <LogoAndTitle
           logo={<Logo width="32" height="32" />}
@@ -167,10 +173,8 @@ function Home() {
         {hide && (
           <AddTask
             onClick={() => setHide(false)}
-            action={addTask}
             tasks={tasks}
             setTasks={setTasks}
-            btntext={"add"}
             value={value}
             setValue={setValue}
             selected={selected}
@@ -184,13 +188,12 @@ function Home() {
             value={value}
             setValue={setValue}
             onClick={() => setEdit(false)}
-            action={editTask}
             tasks={tasks}
             setTasks={setTasks}
-            btntext={"edit"}
             selected={selected}
             setSelected={setSelected}
             selectedTask={selectedTask}
+            setEdit={setEdit}
           />
         )}
 
@@ -226,7 +229,9 @@ function Home() {
             setSelected("");
           }}
         />
+        {/* undo task */}
       </div>
+      <UndoTask deletedTask={deletedTask} setDeletedTask={setDeletedTask} />
       <Footer
         text={"made by zakarialol"}
         className="text-center  font-inter bg-[#383838] text-white p-2 content-center capitalize mt-[40px]"

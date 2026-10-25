@@ -30,3 +30,17 @@
     box-shadow: 0px 0px 20px rgba(128 128 128 / 0.5);
   }
 }
+
+@keyframes undo-progress {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+.undo-progress {
+  transform-origin: left;
+  animation: undo-progress 5s linear forwards;
+}

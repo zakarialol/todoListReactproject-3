@@ -5,31 +5,35 @@ import SvgButton from "../Ui/Svgbutton";
 //states
 import { useState, useEffect } from "react";
 //imgs
-import Xmark from "@/assets/icons/xmark.png";
 import Paragraph from "../Ui/Paragraph";
 //icons
 import DateTimeIcon from "../pages/datetime";
 //about date time picker
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { GenirateId } from "../../js/genirateId.js";
+//this for fire base
+import { db, auth } from "../../Firebase/firebase.js";
+import { setDoc, doc } from "firebase/firestore";
 
 function AddTask({
   setTasks,
   tasks,
-  onClick,
-  btntext,
-  action,
-  setEdit,
   value,
   setValue,
   selected,
-  setSelected,
-  selectedTask,
   setHide,
+  onClick,
+  setSelected,
 }) {
+  //state for opinning the date time when we add task-----------------
+  const [openDateForm, setopenDateForm] = useState(false);
+  //state for date -----------
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [startTime, setStartTime] = useState(null);
+  const [SchudulDate, setSchudulDate] = useState({});
   //durition for select heurs --------------
-  const [duration, setDuration] = useState("60");
-
+  const [duration, setDuration] = useState("");
   const durations = [
     { label: "15 minutes", value: "15" },
     { label: "30 minutes", value: "30" },
@@ -42,22 +46,66 @@ function AddTask({
   ];
   //
   const typesArray = ["health", "work", "mental health", "education", "debts"];
-  //state for opinning the date time when we add task-----------------
-  const [openDateForm, setopenDateForm] = useState(false);
-  //state for date -----------
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [startTime, setStartTime] = useState(null);
+  // function to handle add task
+  //add task
+  function addTask(e) {
+    //
+    const user = auth.currentUser;
+    console.log(user, "user");
+    //
+    const date = new Date().toLocaleString();
+    const dateOnly = SchudulDate.userShosenDate
+      ? SchudulDate.userShosenDate.toISOString().split("T")[0]
+      : "";
+    const timeOnly = SchudulDate.startTime
+      ? SchudulDate.startTime.toTimeString().slice(0, 5)
+      : "";
+    //adding the task ----------------
+    const newTask = {
+      id: GenirateId(tasks),
+      date: date,
+      task: value,
+      type: selected || "others",
+      taskDay: dateOnly,
+      whenToStart: timeOnly || "",
+      taskDuration: duration,
+      completed: false,
+    };
+    setTasks([...tasks, newTask]);
+    async function addTasksToFireStore() {
+      try {
+        await setDoc(doc(db, "users", user.uid, "tasks", newTask.id), newTask);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    addTasksToFireStore();
+    //
+    setSchudulDate({});
+    setValue("");
+    setSelected("");
+  }
+  //
+  function hanldeDateChange(date) {
+    setSelectedDate(date);
+  }
+  function handlestartTime(time) {
+    setStartTime(time, "time");
+  }
   //function to add objet
   function handleSubmit(e) {
     e.preventDefault();
-    console.log("hello world");
+    setopenDateForm((prev) => !prev);
+    setSchudulDate({
+      userShosenDate: selectedDate,
+      startTime: startTime,
+      duration: duration || "",
+    });
   }
+  //
   return (
     <div className="mb-8 bg-white ">
       <div>
-        <div className="flex justify-end mb-3" onClick={onClick}>
-          <IconButton text={Xmark} />
-        </div>
         <Input
           value={value}
           setValue={setValue}
@@ -85,7 +133,7 @@ function AddTask({
           {/* //for datetime button ---------- */}
           <div className="relative">
             <form
-              className={`absolute -top-[303px] border border-gray-400 p-4 rounded-md bg-white w-[275px]  ${openDateForm ? "block" : "hidden"}`}
+              className={`absolute -top-[303px] border border-gray-400/30 p-4 rounded-md bg-white w-[275px]  ${openDateForm ? "block" : "hidden"}`}
               onSubmit={handleSubmit}
             >
               <div className="text-center">
@@ -98,18 +146,19 @@ function AddTask({
                 <label className="inputTitle">{"date"}</label>
                 <DatePicker
                   selected={selectedDate}
-                  onChange={(date) => setSelectedDate(date)}
+                  onChange={hanldeDateChange}
                   placeholderText="Choose a date"
                   dateFormat="dd/MM/yyyy"
                   minDate={new Date()}
                   className="registerInput w-auto"
+                  required
                 />
               </div>
               <div>
                 <label className="inputTitle">{"start time"}</label>
                 <DatePicker
                   selected={startTime}
-                  onChange={setStartTime}
+                  onChange={handlestartTime}
                   placeholderText="Choose start time"
                   showTimeSelect
                   showTimeSelectOnly
@@ -117,11 +166,13 @@ function AddTask({
                   timeCaption="Start time"
                   dateFormat="h:mm aa"
                   className="registerInput w-auto"
+                  required
                 />
               </div>
               <div className="mb-1">
                 <label className=" inputTitle">{"duration"}</label>
                 <select
+                  required
                   value={duration}
                   onChange={(e) => setDuration(e.target.value)}
                   className="registerInput w-auto
@@ -129,6 +180,9 @@ function AddTask({
              focus:border-blue-500 focus:ring-2
              focus:ring-blue-100"
                 >
+                  <option value="" disabled className="text-gray-500">
+                    Select duration
+                  </option>
                   {durations.map((item) => (
                     <option key={item.value} value={item.value}>
                       {item.label}
@@ -145,6 +199,7 @@ function AddTask({
                 <Button
                   onClick={() => {
                     setopenDateForm((prev) => !prev);
+                    setSchudulDate({});
                   }}
                   className={` inputSubBtn text-white bg-gradient-to-r from-gray-400 to-gray-700 mb-1 mt-5 flex item-center justify-center gap-1`}
                   text={"cancel"}
@@ -154,7 +209,7 @@ function AddTask({
             {/* // --------*/}
             <SvgButton
               onclick={() => {
-                setopenDateForm((prev) => !prev);
+                setopenDateForm(true);
               }}
               type="button"
               svg={<DateTimeIcon />}
@@ -163,15 +218,14 @@ function AddTask({
           </div>
           <Button
             disabled={value.trim().length <= 0}
-            onClick={() => {
-              action(selectedTask);
-            }}
+            onClick={addTask}
             className={`btn flex-1 text-[#898989] capitalize w-full ${value.trim().length > 0 ? "bg-[#393433] text-[#FFFFFF]" : ""}`}
-            text={btntext}
+            text={"add"}
           />
           <Button
             onClick={() => {
               setHide(false);
+              setSchudulDate({});
             }}
             className={`btn text-[#898989] capitalize w-[87px]`}
             text={"cancel"}

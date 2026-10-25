@@ -1,7 +1,6 @@
 import { useState } from "react";
 function Task({ count, onClick, category, selectedCategory }) {
   //function to filter tasks
-  console.log(selectedCategory, "selected category ");
   return (
     <div
       className={`p-4 ${category.className} ${selectedCategory ? "border-green-500" : "border-transparent"} font-inter rounded-xl border cursor-pointer `}

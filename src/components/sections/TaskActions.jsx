@@ -1,9 +1,10 @@
 import EditBtn from "../icons/EditIcon";
 import DeleteBtn from "../icons/DeleteIcon";
+import { useContext } from "react";
+import { UserDataContext } from "../../context/userdataContext";
 
 function TaskActions({
   task,
-  onclick,
   setTasks,
   tasks,
   setEdit,
@@ -12,9 +13,11 @@ function TaskActions({
   setSelected,
   hide,
 }) {
+  const { setBinTask, setDeletedTask } = useContext(UserDataContext);
   // delete task fro mthe obj funtion
-  function deleteTask(task) {
+  function deleteTask() {
     const id = task.id;
+    setDeletedTask(task);
     setTasks(() => {
       return tasks.filter((task) => task.id !== id);
     });
