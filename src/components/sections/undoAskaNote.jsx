@@ -1,18 +1,15 @@
 import { useEffect, useContext } from "react";
 import { UserDataContext } from "../../context/userdataContext";
-
+import { updateDoc, doc } from "firebase/firestore";
+import { auth, db } from "../../Firebase/firebase";
 function undoTask({ deletedTask, setDeletedTask }) {
-  const { setBinTasks, tasks, setTasks } = useContext(UserDataContext);
+  const user = auth.currentUser;
+  const { tasks, setTasks } = useContext(UserDataContext);
   useEffect(() => {
+    // const user = auth.currentUser;
     if (!deletedTask) return;
 
     const timer = setTimeout(() => {
-      const id = deletedTask.id;
-      const taskToBin = tasks.find((task) => task.id === id);
-      setBinTasks((prev) => ({
-        ...prev,
-        taskToBin,
-      }));
       setDeletedTask("");
     }, 5000);
 
@@ -21,7 +18,19 @@ function undoTask({ deletedTask, setDeletedTask }) {
 
   if (!deletedTask) return null;
   function undoTask() {
-    setTasks((prev) => [...prev, deletedTask]);
+    async function updateTaskInFirestore() {
+      const taskRef = doc(db, "users", user.uid, "tasks", deletedTask.id);
+      await updateDoc(taskRef, {
+        deletedAt: null,
+      });
+    }
+    updateTaskInFirestore();
+    // setTasks((prev) => [...prev, { ...deletedTask, deletedAt: null }]);
+    setTasks((prevTasks) =>
+      prevTasks.map((task) => {
+        return task.id === deletedTask.id ? { ...task, deletedAt: null } : task;
+      }),
+    );
     setDeletedTask("");
   }
 

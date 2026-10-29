@@ -116,7 +116,7 @@ function EditTask({
     updateTask();
   }
   return (
-    <div className="mb-8 bg-white ">
+    <div className=" fixed top-1/2 left-1/2 bg-white z-50 p-3 shadow-[0_10px_50px_rgba(128,128,128,0.8)] -translate-x-1/2 -translate-y-1/2 min-w-[328px] rounded-md">
       <div>
         <Input
           value={value}

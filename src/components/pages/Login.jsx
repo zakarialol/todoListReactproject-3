@@ -12,8 +12,6 @@ import { useNavigate } from "react-router-dom";
 //
 import signInWithUserAndPassword from "../../js/signInWithUserPassword";
 import ClasicTitleAndInput from "../sections/classicTitleAndInput";
-
-//
 //firebase
 import {
   setPersistence,

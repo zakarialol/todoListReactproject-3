@@ -29,8 +29,10 @@ import UndoTask from "../sections/undoAskaNote.jsx";
 import getUserFromDB from "../../js/getuserFromDb.js";
 //context
 import { UserDataContext } from "../../context/userdataContext.jsx";
+import { useTasks } from "../../context/tasksProvider.jsx";
 // import categoryIncrementFunc from "@/js/incrementCategory.js";
 function Home() {
+  const { tasks, setTasks } = useTasks();
   //user
   const user = auth.currentUser;
   //
@@ -41,36 +43,19 @@ function Home() {
   const [value, setValue] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [OpenSideModale, setOpenSideModale] = useState(false);
-  const [tasks, setTasks] = useState([]);
   const [userData, setUserData] = useState("");
   const [deletedTask, setDeletedTask] = useState();
   //this for the bin
-  const [binTasks, setBinTasks] = useState([]);
+  // const [binTasks, setBinTasks] = useState([]);
   //useeffect for the getting tasks
-
-  useEffect(() => {
-    async function getTasks() {
-      const tasksRef = collection(db, "users", user.uid, "tasks");
-
-      const snapshot = await getDocs(tasksRef);
-
-      const tasksData = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setTasks(tasksData);
-    }
-
-    getTasks();
-  }, [user.uid]);
   //
-  const data = useEffect(() => {
+  useEffect(() => {
     async function laoduser() {
       const data = await getUserFromDB();
       setUserData(data);
     }
     laoduser();
-  }, [tasks]);
+  }, []);
   //categories ------------------------
   const [category, setCategory] = useState([
     {
@@ -111,7 +96,9 @@ function Home() {
     },
   ]);
   // filter the task
+  console.log("tasks", tasks);
   const filterdTasks = tasks?.filter((task) => {
+    if (task.deletedAt) return false;
     if (selectedCategory === "health") return task.type === selectedCategory;
     if (selectedCategory === "work") return task.type === selectedCategory;
     if (selectedCategory === "mental health")
@@ -124,28 +111,32 @@ function Home() {
   return (
     <UserDataContext.Provider
       value={{
+        selectedTask,
+        setEdit,
         userData,
         tasks,
         deletedTask,
         setDeletedTask,
-        setBinTasks,
+        // setBinTasks,
         setTasks,
       }}
     >
-      <div className="px-6 pt-[80px] flex min-h-dvh flex-col">
-        <LogoAndTitle
-          logo={<Logo width="32" height="32" />}
-          title="askanote"
-          className="flex gap-2 items-center fixed top-0 w-full bg-white py-6 z-30"
-        />
-        <div className="flex justify-between">
-          <Header />
-          <SvgButton
-            svg={<MenuIcon width={"35px"} height={"35px"} />}
-            onclick={() => {
-              setOpenSideModale(!OpenSideModale);
-            }}
+      <div className="px-6 pt-[132px] flex min-h-dvh flex-col">
+        <div className="fixed top-0 left-0 right-0 px-6 pb-3 bg-white">
+          <LogoAndTitle
+            logo={<Logo width="32" height="32" />}
+            title="askanote"
+            className="flex gap-2 items-center w-full py-6 z-50"
           />
+          <div className="flex justify-between">
+            <Header />
+            <SvgButton
+              svg={<MenuIcon width={"35px"} height={"35px"} />}
+              onclick={() => {
+                setOpenSideModale(!OpenSideModale);
+              }}
+            />
+          </div>
         </div>
         <OpenSideModaleMenu
           OpenSideModale={OpenSideModale}
@@ -160,7 +151,12 @@ function Home() {
               selectedCategory={
                 selectedCategory === category.type ? category.type : null
               }
-              count={tasks.filter((task) => task.type === category.type).length}
+              count={
+                tasks.filter((task) => {
+                  if (task.deletedAt) return false;
+                  return task.type === category.type;
+                }).length
+              }
               onClick={() => {
                 setSelectedCategory(() =>
                   selectedCategory === category.type ? null : category.type,
@@ -197,27 +193,25 @@ function Home() {
           />
         )}
 
-        <div className="c:\Users\hphp7\Downloads\dollar.pngrelative">
-          {filterdTasks.map((task) => (
-            <Task
-              key={task?.id}
-              setEdit={(isEditDivOpen, isAddDivOpen) => {
-                setEdit(isEditDivOpen);
-                setHide(isAddDivOpen);
-              }}
-              type={task?.type}
-              taskText={task?.task}
-              task={task}
-              tasks={tasks}
-              setTasks={setTasks}
-              date={task?.date}
-              setValue={setValue}
-              hide={hide}
-              setSelected={setSelected}
-              setSelectedTask={setSelectedTask}
-            />
-          ))}
-        </div>
+        {filterdTasks.map((task) => (
+          <Task
+            key={task?.id}
+            setEdit={(isEditDivOpen, isAddDivOpen) => {
+              setEdit(isEditDivOpen);
+              setHide(isAddDivOpen);
+            }}
+            type={task?.type}
+            taskText={task?.task}
+            task={task}
+            tasks={tasks}
+            setTasks={setTasks}
+            date={task?.date}
+            setValue={setValue}
+            hide={hide}
+            setSelected={setSelected}
+            setSelectedTask={setSelectedTask}
+          />
+        ))}
 
         <IconButton
           imgPath={plusImg}

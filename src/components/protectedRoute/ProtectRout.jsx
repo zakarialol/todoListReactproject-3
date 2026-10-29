@@ -7,16 +7,7 @@ import { useState, useEffect } from "react";
 //
 import Home from "../pages/Home";
 //
-function ProtectRoute({ children }) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const userAuthenticated = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
-    });
-    return userAuthenticated;
-  }, []);
+function ProtectRoute({ children, user, loading }) {
   if (loading) {
     return <h1>loading ...</h1>;
   }

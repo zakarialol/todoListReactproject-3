@@ -140,9 +140,7 @@ function ContactUs() {
     //sending the email ---------
     try {
       setSendAnimation(true);
-      // await emailjs.send("askanote_4ja50hf", "template_35134zll", formData, {
-      //   publicKey: "zR3R1ZspicghSvt7u",
-      // });
+
       //showing succes msg ------
       setSuccesfullyMsgSent(true);
       setTimeout(() => {

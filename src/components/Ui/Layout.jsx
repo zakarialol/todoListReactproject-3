@@ -8,7 +8,7 @@ function Layout() {
       <LogoAndTitle
         logo={<Logo width="32" height="32" />}
         title="askanote"
-        className="flex gap-2 items-center mb-8 mt-2 px-6"
+        className="flex gap-2 items-center  px-6 fixed top-0 w-full bg-white py-6 z-50"
       />
       <Outlet />
       <Footer
