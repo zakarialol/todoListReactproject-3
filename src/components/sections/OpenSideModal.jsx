@@ -24,7 +24,7 @@ function OpenSideModale({ className = "", OpenSideModale, setOpenSideModale }) {
     setProfileInfo(true);
   }
   function calender() {
-    console.log("caledner...");
+    navigate("/calender");
   }
   function contact() {
     navigate("/contactUs");

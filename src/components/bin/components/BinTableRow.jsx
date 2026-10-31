@@ -1,7 +1,15 @@
 import { RotateCcw, Trash2 } from "lucide-react";
 import CustomeCheckBox from "../../sections/customCheckBox";
-
+import ReplaceSpace from "../../../js/replaceSpace.js";
 function BinTableRow({ task, checked, onSelect, onRestore, onDelete }) {
+  const typeObject = {
+    health: "#7990F8",
+    work: "#46CF8B",
+    mental_health: "#BC5EAD",
+    education: "#034078",
+    debts: "#000501",
+    others: "#908986",
+  };
   return (
     <tr className="border-b border-gray-200 hover:bg-gray-50">
       {/* Checkbox */}
@@ -22,7 +30,10 @@ function BinTableRow({ task, checked, onSelect, onRestore, onDelete }) {
       </td>
 
       {/* Type */}
-      <td className="p-4 text-gray-500 capitalize text-center whitespace-nowrap">
+      <td
+        className="p-4 capitalize text-center whitespace-nowrap"
+        style={{ color: typeObject[ReplaceSpace(task.type)] }}
+      >
         {task.type}
       </td>
 

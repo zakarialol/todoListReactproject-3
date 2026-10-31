@@ -188,30 +188,3 @@ function BinPage() {
 }
 
 export default BinPage;
-
-//!------------------------------------------------------------
-// / import { useTasks } from "../../context/tasksProvider";
-// import EmptyBin from "./EmptyBin";
-
-// function BinPage() {
-//   const { tasks, tasksLoading } = useTasks();
-
-//   const deletedTasks = tasks.filter((task) => task.deletedAt);
-
-//   if (tasksLoading) {
-//     return <p>Loading deleted tasks...</p>;
-//   }
-
-//   return (
-//     <>
-//       {deletedTasks.length > 0 ? (
-//         <h2>...loading</h2>
-//       ) : (
-//         // <BinTable tasks={deletedTasks} />
-//         <EmptyBin />
-//       )}
-//     </>
-//   );
-// }
-
-// export default BinPage;

@@ -29,20 +29,20 @@ function AddTask({
   //state for opinning the date time when we add task-----------------
   const [openDateForm, setopenDateForm] = useState(false);
   //state for date -----------
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [startTime, setStartTime] = useState(null);
   const [SchudulDate, setSchudulDate] = useState({});
   //durition for select heurs --------------
   const [duration, setDuration] = useState("");
   const durations = [
-    { label: "15 minutes", value: "15" },
-    { label: "30 minutes", value: "30" },
-    { label: "45 minutes", value: "45" },
     { label: "1 hour", value: "60" },
-    { label: "1 hour 30 minutes", value: "90" },
     { label: "2 hours", value: "120" },
     { label: "3 hours", value: "180" },
     { label: "4 hours", value: "240" },
+    { label: "5 hours", value: "300" },
+    { label: "6 hours", value: "360" },
+    { label: "7 hours", value: "420" },
+    { label: "8 hours", value: "480" },
   ];
   //
   const typesArray = ["health", "work", "mental health", "education", "debts"];
@@ -162,15 +162,24 @@ function AddTask({
                   placeholderText="Choose start time"
                   showTimeSelect
                   showTimeSelectOnly
-                  timeIntervals={15}
+                  timeIntervals={60}
                   timeCaption="Start time"
-                  dateFormat="h:mm aa"
+                  dateFormat="hh:mm"
                   className="registerInput w-auto"
+                  filterTime={(time) => {
+                    const now = new Date();
+
+                    if (selectedDate.toDateString() !== now.toDateString()) {
+                      return true;
+                    }
+
+                    return time.getTime() > now.getTime();
+                  }}
                   required
                 />
               </div>
               <div className="mb-1">
-                <label className=" inputTitle">{"duration"}</label>
+                <label className=" inputTitle block">{"duration"}</label>
                 <select
                   required
                   value={duration}

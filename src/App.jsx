@@ -13,6 +13,8 @@ import ProtectRoute from "./components/protectedRoute/ProtectRout.jsx";
 import Layout from "./components/Ui/Layout.jsx";
 //bin
 import BinPage from "./components/bin/binPage.jsx";
+//calender
+import SchedulePage from "./components/schedule/SchedulePage.jsx";
 //
 import { useState, useEffect } from "react";
 //
@@ -94,6 +96,14 @@ function App() {
                   element={
                     <ProtectRoute user={user} loading={loading}>
                       <BinPage />
+                    </ProtectRoute>
+                  }
+                />
+                <Route
+                  path="/calender"
+                  element={
+                    <ProtectRoute user={user} loading={loading}>
+                      <SchedulePage />
                     </ProtectRoute>
                   }
                 />
