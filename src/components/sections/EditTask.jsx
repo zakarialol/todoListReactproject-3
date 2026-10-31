@@ -39,10 +39,20 @@ function EditTask({
     selectedTask.taskDuration ? selectedTask.taskDuration : "",
   );
   const [SchudulDate, setSchudulDate] = useState({
-    userShosenDate: new Date(selectedTask.taskDay + "T00:00:00") || "",
+    userShosenDate: selectedTask.taskDay
+      ? new Date(`${selectedTask.taskDay}T00:00:00`)
+      : null,
+
     startTime:
-      new Date(`${selectedTask.taskDay}T${selectedTask.whenToStart}:00`) || "",
+      selectedTask.taskDay && selectedTask.whenToStart
+        ? new Date(`${selectedTask.taskDay}T${selectedTask.whenToStart}:00`)
+        : null,
   });
+  // const [SchudulDate, setSchudulDate] = useState({
+  //   userShosenDate: new Date(selectedTask.taskDay + "T00:00:00") || "",
+  //   startTime:
+  //     new Date(`${selectedTask.taskDay}T${selectedTask.whenToStart}:00`) || "",
+  // });
   // date fore datePicker
   // const date = selectedDate.taskDay
   //   ? new Date(selectedDate.taskDay + "T00:00:00")
@@ -70,22 +80,42 @@ function EditTask({
   function handlestartTime(time) {
     setStartTime(time, "time");
   }
-  function handleSubmit(e) {
-    e.preventDefault();
-    setopenDateForm((prev) => !prev);
+  // function handleSubmit(e) {
+  //   e.preventDefault();
+  //   setopenDateForm((prev) => !prev);
+  //   setSchudulDate({
+  //     userShosenDate: selectedDate || "",
+  //     startTime: startTime || "",
+  //   });
+  // }
+  function handleSubmit() {
+    setopenDateForm(false);
+
     setSchudulDate({
-      userShosenDate: selectedDate || "",
-      startTime: startTime || "",
+      userShosenDate: selectedDate,
+      startTime: startTime,
     });
   }
   // edit task
-  function editTask() {
-    const dateOnly = SchudulDate.userShosenDate
-      ? SchudulDate.userShosenDate.toLocaleDateString("en-CA")
-      : "";
-    const timeOnly = SchudulDate.startTime
-      ? SchudulDate.startTime.toTimeString().slice(0, 5)
-      : "";
+  function editTask(e) {
+    e.preventDefault();
+    // const dateOnly = SchudulDate.userShosenDate
+    //   ? SchudulDate.userShosenDate.toLocaleDateString("en-CA")
+    //   : "";
+    // const timeOnly = SchudulDate.startTime
+    //   ? SchudulDate.startTime.toTimeString().slice(0, 5)
+    //   : "";
+    const dateOnly =
+      SchudulDate.userShosenDate instanceof Date &&
+      !isNaN(SchudulDate.userShosenDate.getTime())
+        ? SchudulDate.userShosenDate.toLocaleDateString("en-CA")
+        : "";
+
+    const timeOnly =
+      SchudulDate.startTime instanceof Date &&
+      !isNaN(SchudulDate.startTime.getTime())
+        ? SchudulDate.startTime.toTimeString().slice(0, 5)
+        : "";
     // const durition = SchudulDate.duration;
     setTasks((prev) =>
       prev.map((task) => {
@@ -116,7 +146,12 @@ function EditTask({
     updateTask();
   }
   return (
-    <div className=" fixed top-1/2 left-1/2 bg-white z-50 p-3 shadow-[0_10px_50px_rgba(128,128,128,0.8)] -translate-x-1/2 -translate-y-1/2 min-w-[328px] rounded-md">
+    <form
+      onSubmit={(e) => {
+        editTask(e);
+      }}
+      className=" fixed top-1/2 left-1/2 bg-white z-50 p-3 shadow-[0_10px_50px_rgba(128,128,128,0.8)] -translate-x-1/2 -translate-y-1/2 min-w-[328px] rounded-md"
+    >
       <div>
         <Input
           value={value}
@@ -144,9 +179,8 @@ function EditTask({
         <div className=" flex gap-2">
           {/* //for datetime button ---------- */}
           <div className="relative">
-            <form
+            <div
               className={`absolute -top-[303px] border border-gray-400/30 p-4 rounded-md bg-white w-[275px]  ${openDateForm ? "block" : "hidden"}`}
-              onSubmit={handleSubmit}
             >
               <div className="text-center">
                 <Paragraph
@@ -204,7 +238,7 @@ function EditTask({
               </div>
               <div className="flex gap-2">
                 <Button
-                  type="submit"
+                  onClick={handleSubmit}
                   className="inputSubBtn text-white bg-gradient-to-r from-orange-400 to-orange-700 mb-1 mt-5 flex item-center justify-center gap-1"
                   text="save"
                 />
@@ -217,7 +251,7 @@ function EditTask({
                   text={"cancel"}
                 />
               </div>
-            </form>
+            </div>
             {/* // --------*/}
             <SvgButton
               onclick={() => {
@@ -229,6 +263,7 @@ function EditTask({
             />
           </div>
           <Button
+            type="submit"
             onClick={editTask}
             className={`btn flex-1 text-[#898989] capitalize w-full ${value.trim().length > 0 ? "bg-[#393433] text-[#FFFFFF]" : ""}`}
             text="edit"
@@ -240,7 +275,7 @@ function EditTask({
           />
         </div>
       </div>
-    </div>
+    </form>
   );
 }
 export default EditTask;

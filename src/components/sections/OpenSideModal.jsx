@@ -83,7 +83,7 @@ function OpenSideModale({ className = "", OpenSideModale, setOpenSideModale }) {
       {prfileInfo && (
         <ProfileInfo
           setProfileInfo={setProfileInfo}
-          className="fixed inset-0 bg-black/30 flex items-center justify-center"
+          className="fixed inset-0 bg-black/30 flex items-center justify-center backdrop-blur-sm"
         />
       )}
     </div>

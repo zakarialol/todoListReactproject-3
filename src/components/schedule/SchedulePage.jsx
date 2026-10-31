@@ -3,6 +3,7 @@ import { useTasks } from "../../context/tasksProvider";
 
 import ScheduleHeader from "./components/ScheduleHeader";
 import ScheduleCalendar from "./components/ScheduleCalendar";
+import ScheduleLegend from "./components/ScheduleLegend";
 
 function SchedulePage() {
   const { tasks, tasksLoading } = useTasks();
@@ -23,6 +24,7 @@ function SchedulePage() {
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
       />
+      <ScheduleLegend />
       <ScheduleCalendar selectedDate={selectedDate} tasks={scheduledTasks} />
     </div>
   );

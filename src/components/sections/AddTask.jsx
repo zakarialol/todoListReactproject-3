@@ -48,7 +48,8 @@ function AddTask({
   const typesArray = ["health", "work", "mental health", "education", "debts"];
   // function to handle add task
   //add task
-  function addTask(e) {
+  function addTask(event) {
+    event.preventDefault();
     //
     const user = auth.currentUser;
     console.log(user, "user");
@@ -93,8 +94,7 @@ function AddTask({
     setStartTime(time, "time");
   }
   //function to add objet
-  function handleSubmit(e) {
-    e.preventDefault();
+  function handleSubmit() {
     setopenDateForm((prev) => !prev);
     setSchudulDate({
       userShosenDate: selectedDate,
@@ -104,7 +104,12 @@ function AddTask({
   }
   //
   return (
-    <div className="p-3 fixed top-1/2 left-1/2 bg-white z-50 shadow-[0_10px_50px_rgba(128,128,128,0.8)] -translate-x-1/2 -translate-y-1/2 min-w-[328px] rounded-md">
+    <form
+      onSubmit={(event) => {
+        addTask(event);
+      }}
+      className="p-3 fixed top-1/2 left-1/2 bg-white z-50 shadow-[0_10px_50px_rgba(128,128,128,0.8)] -translate-x-1/2 -translate-y-1/2 min-w-[328px] rounded-md"
+    >
       <div>
         <Input
           value={value}
@@ -132,9 +137,8 @@ function AddTask({
         <div className=" flex gap-2">
           {/* //for datetime button ---------- */}
           <div className="relative">
-            <form
+            <div
               className={`absolute -top-[303px] border border-gray-400/30 p-4 rounded-md bg-white w-[275px]  ${openDateForm ? "block" : "hidden"}`}
-              onSubmit={handleSubmit}
             >
               <div className="text-center">
                 <Paragraph
@@ -201,7 +205,7 @@ function AddTask({
               </div>
               <div className="flex gap-2">
                 <Button
-                  type="submit"
+                  onClick={handleSubmit}
                   className="inputSubBtn text-white bg-gradient-to-r from-orange-400 to-orange-700 mb-1 mt-5 flex item-center justify-center gap-1"
                   text="save"
                 />
@@ -214,7 +218,7 @@ function AddTask({
                   text={"cancel"}
                 />
               </div>
-            </form>
+            </div>
             {/* // --------*/}
             <SvgButton
               onclick={() => {
@@ -226,6 +230,7 @@ function AddTask({
             />
           </div>
           <Button
+            type="submit"
             disabled={value.trim().length <= 0}
             onClick={addTask}
             className={`btn flex-1 text-[#898989] capitalize w-full ${value.trim().length > 0 ? "bg-[#393433] text-[#FFFFFF]" : ""}`}
@@ -241,7 +246,7 @@ function AddTask({
           />
         </div>
       </div>
-    </div>
+    </form>
   );
 }
 export default AddTask;

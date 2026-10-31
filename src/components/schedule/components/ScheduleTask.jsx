@@ -42,6 +42,8 @@ const typeObject = {
 };
 
 export default function ScheduleTask({ task }) {
+  const textColor =
+    task.type === "debts" || task.type === "education" ? "#FFFFFF" : "#1F2937";
   const [hours, minutes] = task.whenToStart.split(":").map(Number);
 
   const start = hours + minutes / 60;
@@ -61,7 +63,12 @@ export default function ScheduleTask({ task }) {
           backgroundColor: typeObject[task.type] || typeObject.others,
         }}
       >
-        <p className="whitespace-normal break-words text-sm">{task.task}</p>
+        <p
+          className="whitespace-normal break-words text-sm"
+          style={{ color: textColor }}
+        >
+          {task.task}
+        </p>
       </div>
     </div>
   );
