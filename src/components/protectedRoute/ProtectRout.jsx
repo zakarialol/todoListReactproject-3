@@ -1,15 +1,16 @@
-//firebase
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../Firebase/firebase";
 //react
 import { Navigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 //
-import Home from "../pages/Home";
+import CircleLoadingDiv from "../sections/CircleLoadingDiv";
 //
 function ProtectRoute({ children, user, loading }) {
   if (loading) {
-    return <h1>loading ...</h1>;
+    return (
+      <CircleLoadingDiv
+        className="flex items-center justify-center fixed inset-0 z-50 bg-white"
+        svgCalass="w-[150px] h-[150px]"
+      />
+    );
   }
   if (!user) {
     return <Navigate to="/" replace />;

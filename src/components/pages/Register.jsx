@@ -1,4 +1,3 @@
-// icons
 import Paragraph from "../Ui/Paragraph";
 //jsx
 import InputWithTitle from "@/components/sections/InputWithTitle";
@@ -12,6 +11,8 @@ import { sendEmailVerification } from "firebase/auth";
 //
 import { fullnameRegex, emailRegex, passwordRegex } from "../../js/regex.js";
 import senduserToFirebase from "../../js/senduserToFirebase.js";
+//
+import BounceLoadingAnimation from "../icons/BounceLoadingAnimation.jsx";
 //
 import displayOrhideformErrors from "../../js/DispalyOrHideFormError.js";
 //
@@ -54,6 +55,7 @@ function validinputsfunc(
 
 //todo register cmponent function
 function Register() {
+  const [loginAnimation, setloginAnimation] = useState(false);
   //state for email if exist
   const [emailexistalready, setEmailExistAlready] = useState(false);
   const navigate = useNavigate();
@@ -141,123 +143,166 @@ function Register() {
       setErrors,
     );
     if (hasInvalidInputs) return;
-    const userCridenial = await senduserToFirebase({
-      fullName: fullName.value,
-      email: email.value,
-      password: password.value,
-      setEmailExistAlready,
-      setErrors,
-    });
-    if (!userCridenial) return;
-    await sendEmailVerification(userCridenial.user);
-    navigate("/verifyEmail", {
-      state: {
-        id: userCridenial.user.uid,
-        email: email.value,
+    try {
+      setloginAnimation(true);
+
+      const userCridenial = await senduserToFirebase({
         fullName: fullName.value,
-      },
-    });
+        email: email.value,
+        password: password.value,
+        setEmailExistAlready,
+        setErrors,
+      });
+      if (!userCridenial) return;
+      await sendEmailVerification(userCridenial.user);
+      navigate("/verifyEmail", {
+        state: {
+          id: userCridenial.user.uid,
+          email: email.value,
+          fullName: fullName.value,
+        },
+      });
+    } catch (err) {
+      setloginAnimation(false);
+      console.log("error", err);
+    } finally {
+    }
   }
   //!
   //
   return (
-    <div className="px-6 pt-6 flex-1">
-      <div className="text-center">
-        <Paragraph className="formTitle" text="create an account" />
+    <div className="relative isolate flex min-h-full flex-1 items-center justify-center overflow-x-clip bg-gray-50 px-4 pb-8 pt-28 sm:px-6 sm:pb-10 lg:px-8">
+      {/* Decorative curved background */}
+      <div className="absolute inset-x-0 top-0 -z-10 h-[260px] bg-gradient-to-br from-orange-400 to-orange-600 sm:h-[320px] lg:h-[380px]">
+        <svg
+          className="absolute -bottom-px left-0 h-32 w-full sm:h-40 lg:h-48"
+          viewBox="0 0 1440 320"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill="#f9fafb"
+            d="M0,160 C240,300 480,300 720,180 C960,60 1200,80 1440,180 L1440,320 L0,320 Z"
+          />
+        </svg>
       </div>
-      <form
-        action=""
-        onSubmit={(e) => {
-          handleSubmit(e, setEmailExistAlready, setErrors);
-        }}
-      >
-        <InputWithTitle
-          title="full name"
-          name="fullName"
-          {...fullName}
-          value={fullName.value}
-          onChange={fullName.onChange}
-          type="text"
-          error={errors.fullName["msg"]}
-          showPassword={showPassword}
-          showError={errors.fullName.showError}
-          onblur={(e) => {
-            livingInput(e, setErrors);
-          }}
-        />
-        <InputWithTitle
-          title="email"
-          name="email"
-          type="email"
-          showPassword={showPassword}
-          error={
-            emailexistalready
-              ? "this email already registred"
-              : errors.email["msg"]
-          }
-          emailexistalready={emailexistalready}
-          onblur={(e) => {
-            livingInput(e, setErrors);
-          }}
-          showError={errors.email.showError}
-          {...email}
-        />
-        <InputWithTitle
-          title={"password"}
-          name="password"
-          {...password}
-          type={showPassword.password ? "text" : "password"}
-          error={errors.password["msg"]}
-          showError={errors.password.showError}
-          onblur={(e) => {
-            livingInput(e, setErrors);
-            setFocused(false);
-            setshowPassword((prev) => ({ ...prev, password: false }));
-          }}
-          showPassword={showPassword}
-          setshowPassword={setshowPassword}
-          focused={focused.password}
-          passwordCon={errors.password.passwordCon}
-          onfocus={() => {
-            setFocused((prev) => ({
-              ...prev,
-              password: true,
-            }));
-          }}
-        />
-        <InputWithTitle
-          title="confirm password"
-          name="confirmPassword"
-          {...confirmPassword}
-          type={showPassword.confirmPassword ? "text" : "password"}
-          error={errors.confirmPassword["msg"]}
-          showError={errors.confirmPassword.showError}
-          setshowPassword={setshowPassword}
-          showPassword={showPassword}
-          onblur={(e) => {
-            livingInput(e, setErrors, password);
-            setFocused(false);
-            setshowPassword((prev) => ({ ...prev, confirmPassword: false }));
-          }}
-          onfocus={() => {
-            setFocused((prev) => ({
-              ...prev,
-              confirmPassword: true,
-            }));
-          }}
-          focused={focused.confirmPassword}
-        />
 
-        <Button
-          className="inputSubBtn text-white bg-gradient-to-r from-orange-400 to-orange-700 mb-2 mt-3"
-          text="sign up"
-        />
-      </form>
-      <div className="text-center mt-4 flex items-center justify-center flex-wrap capitalize gap-1">
-        <Paragraph text="already have an acoount ? " className="" />
-        <Link to="/" className="text-orange-500 cursor-pointer ">
-          sign in
-        </Link>
+      {/* Register form */}
+      <div className="relative my-auto w-full max-w-md rounded-2xl bg-white p-5 shadow-xl shadow-orange-900/10 sm:p-8">
+        <div className="text-center">
+          <Paragraph className="formTitle" text="create an account" />
+        </div>
+
+        <form
+          action=""
+          onSubmit={(e) => {
+            handleSubmit(e, setEmailExistAlready, setErrors);
+          }}
+        >
+          <InputWithTitle
+            title="full name"
+            name="fullName"
+            {...fullName}
+            value={fullName.value}
+            onChange={fullName.onChange}
+            type="text"
+            error={errors.fullName["msg"]}
+            showPassword={showPassword}
+            showError={errors.fullName.showError}
+            onblur={(e) => {
+              livingInput(e, setErrors);
+            }}
+          />
+
+          <InputWithTitle
+            title="email"
+            name="email"
+            type="email"
+            showPassword={showPassword}
+            error={
+              emailexistalready
+                ? "this email already registred"
+                : errors.email["msg"]
+            }
+            emailexistalready={emailexistalready}
+            onblur={(e) => {
+              livingInput(e, setErrors);
+            }}
+            showError={errors.email.showError}
+            {...email}
+          />
+
+          <InputWithTitle
+            title={"password"}
+            name="password"
+            {...password}
+            type={showPassword.password ? "text" : "password"}
+            error={errors.password["msg"]}
+            showError={errors.password.showError}
+            onblur={(e) => {
+              livingInput(e, setErrors);
+              setFocused(false);
+              setshowPassword((prev) => ({ ...prev, password: false }));
+            }}
+            showPassword={showPassword}
+            setshowPassword={setshowPassword}
+            focused={focused.password}
+            passwordCon={errors.password.passwordCon}
+            onfocus={() => {
+              setFocused((prev) => ({
+                ...prev,
+                password: true,
+              }));
+            }}
+          />
+
+          <InputWithTitle
+            title="confirm password"
+            name="confirmPassword"
+            {...confirmPassword}
+            type={showPassword.confirmPassword ? "text" : "password"}
+            error={errors.confirmPassword["msg"]}
+            showError={errors.confirmPassword.showError}
+            setshowPassword={setshowPassword}
+            showPassword={showPassword}
+            onblur={(e) => {
+              livingInput(e, setErrors, password);
+              setFocused(false);
+              setshowPassword((prev) => ({
+                ...prev,
+                confirmPassword: false,
+              }));
+            }}
+            onfocus={() => {
+              setFocused((prev) => ({
+                ...prev,
+                confirmPassword: true,
+              }));
+            }}
+            focused={focused.confirmPassword}
+          />
+
+          <Button
+            onClick={(e) => {
+              handleSubmit(e, setEmailExistAlready, setErrors);
+            }}
+            disabled={loginAnimation}
+            className="inputSubBtn text-white bg-gradient-to-r from-orange-400 to-orange-700 mb-2 mt-3 flex items-center justify-center gap-1"
+            text={loginAnimation ? "please wait" : "register"}
+            animation={
+              <BounceLoadingAnimation
+                className={`${loginAnimation ? "block" : "hidden"}`}
+              />
+            }
+          />
+        </form>
+
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-1 text-center capitalize">
+          <Paragraph text="already have an acoount ? " className="" />
+          <Link to="/" className="ml-[2px] cursor-pointer text-orange-500">
+            sign in
+          </Link>
+        </div>
       </div>
     </div>
   );

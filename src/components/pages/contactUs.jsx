@@ -161,23 +161,48 @@ function ContactUs() {
   //
   // this when the user lives the input
   return (
-    <>
-      <div className="px-6 pt-6 flex-1 relative">
-        <p
-          role="status"
-          className={` transition-[right] duration-1000 font-inter text-white bg-[#2E7D32] rounded-lg py-1 px-3 absolute  -top-5 ${succesfullyMsgSent ? "right-[4px]" : "-right-full"}`}
+    <div className="relative isolate flex min-h-full flex-1 items-center justify-center overflow-x-clip overflow-y-visible bg-gray-50 px-4 pb-8 pt-28 sm:px-6 sm:pb-10 lg:px-8">
+      {/* Decorative curved background */}
+      <div className="absolute inset-x-0 top-0 -z-10 h-[260px] bg-gradient-to-br from-orange-400 to-orange-600 sm:h-[320px] lg:h-[380px]">
+        <svg
+          className="absolute -bottom-px left-0 h-32 w-full sm:h-40 lg:h-48"
+          viewBox="0 0 1440 320"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          message send succesfully
-        </p>
+          <path
+            fill="#f9fafb"
+            d="M0,160 C240,300 480,300 720,180 C960,60 1200,80 1440,180 L1440,320 L0,320 Z"
+          />
+        </svg>
+      </div>
+
+      {/* Contact form */}
+      <div className="relative my-auto w-full max-w-md rounded-2xl bg-white p-5 shadow-xl shadow-orange-900/10 sm:p-8">
+        <div className="fixed right-0 top-28 z-[60] w-full overflow-hidden pointer-events-none">
+          <p
+            role="status"
+            className={`ml-auto w-fit rounded-lg bg-[#2E7D32] px-3 py-1 font-inter text-white transition-transform duration-700 ease-in-out ${
+              succesfullyMsgSent ? "translate-x-0" : "translate-x-full"
+            }`}
+          >
+            message send succesfully
+          </p>
+        </div>
+
         <div className="text-center">
           <Paragraph className="formTitle" text="contact us" />
         </div>
+
         <div
-          className={`overflow-hidden transition-[max-height] duration-500 font-inter text-red-500 bg-[rgba(239_68_68_/_.1)] w-fit mx-auto rounded-lg ${formSubmitted ? "max-h-10" : "max-h-0"}`}
+          className={`overflow-hidden transition-[max-height] duration-500 font-inter text-red-500 bg-[rgba(239_68_68_/_.1)] w-fit mx-auto rounded-lg ${
+            formSubmitted ? "max-h-10" : "max-h-0"
+          }`}
         >
-          <p className="px-2 py-1 ">email didn't sent try again</p>
+          <p className="px-2 py-1">email didn't sent try again</p>
         </div>
-        {/* //*form ----------------------------------------- */}
+
+        {/* Form */}
         <form action="" onSubmit={handleSend}>
           <InputWithTitle
             title="name"
@@ -190,7 +215,7 @@ function ContactUs() {
               livingInput(e, setErrors);
             }}
           />
-          {/* //#########3 */}
+
           <InputWithTitle
             title="email"
             name="email"
@@ -203,7 +228,7 @@ function ContactUs() {
               livingInput(e, setErrors);
             }}
           />
-          {/* //###### */}
+
           <InputWithTitle
             title="subject"
             name="subject"
@@ -215,7 +240,7 @@ function ContactUs() {
               livingInput(e, setErrors);
             }}
           />
-          {/* //###### */}
+
           <InputWithTitle
             title="message"
             name="message"
@@ -227,7 +252,7 @@ function ContactUs() {
               livinTextArea(e, setErrors);
             }}
           />
-          {/* end of form ------------------------------- */}
+
           <Button
             type="send"
             className="inputSubBtn text-white bg-gradient-to-r from-orange-400 to-orange-700 mb-2 mt-3 flex items-center justify-center gap-1"
@@ -240,7 +265,7 @@ function ContactUs() {
           />
         </form>
       </div>
-    </>
+    </div>
   );
 }
 export default ContactUs;

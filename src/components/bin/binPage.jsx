@@ -10,7 +10,6 @@ import { auth, db } from "../../Firebase/firebase";
 function BinPage() {
   const user = auth.currentUser;
   const { tasks, setTasks, tasksLoading } = useTasks();
-  console.log("tasks inside the binPage", tasks);
   // let [binTasks, setBinTasks] = useState([]);
   const [selectedTasks, setSelectedTasks] = useState([]);
 

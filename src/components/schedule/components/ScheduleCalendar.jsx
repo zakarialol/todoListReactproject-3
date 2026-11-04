@@ -1,11 +1,12 @@
+import { useState } from "react";
 import DayRow from "./DayRow";
 import TimeHeader from "./TimeHeader";
 
 export default function ScheduleCalendar({ selectedDate, tasks }) {
-  // Generate 7 days starting from selectedDate
+  const [scrollLeft, setScrollLeft] = useState(0);
+
   const days = Array.from({ length: 7 }, (_, index) => {
     const date = new Date(selectedDate);
-
     date.setDate(date.getDate() + index);
 
     return {
@@ -14,11 +15,9 @@ export default function ScheduleCalendar({ selectedDate, tasks }) {
         String(date.getMonth() + 1).padStart(2, "0"),
         String(date.getDate()).padStart(2, "0"),
       ].join("-"),
-
       label: date.toLocaleDateString("en-US", {
         weekday: "long",
       }),
-
       formattedDate: date.toLocaleDateString("en-US", {
         day: "numeric",
         month: "short",
@@ -27,23 +26,24 @@ export default function ScheduleCalendar({ selectedDate, tasks }) {
   });
 
   return (
-    <div className="overflow-x-clip">
-      <div className="w-max rounded-lg border border-gray-300">
-        {/* Header */}
-        <div className="sticky top-[80px] z-30 flex bg-white">
-          <div className="w-32 shrink-0 border-b border-r border-gray-300 bg-white" />
+    <div className="w-full">
+      <TimeHeader scrollLeft={scrollLeft} />
 
-          <TimeHeader />
+      <div
+        className="w-full overflow-x-auto"
+        onScroll={(e) => setScrollLeft(e.currentTarget.scrollLeft)}
+      >
+        <div className="w-max rounded-lg border border-gray-300">
+          {days.map((day) => (
+            <DayRow
+              key={day.date}
+              day={day}
+              tasks={tasks.filter(
+                (task) => task.taskDay === day.date && !task.completed,
+              )}
+            />
+          ))}
         </div>
-
-        {/* Days */}
-        {days.map((day) => (
-          <DayRow
-            key={day.date}
-            day={day}
-            tasks={tasks.filter((task) => task.taskDay === day.date)}
-          />
-        ))}
       </div>
     </div>
   );

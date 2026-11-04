@@ -1,4 +1,3 @@
-//
 import Croper from "./Croper";
 import { useRef, useEffect, useState } from "react";
 import Img from "@/components/Ui/Img";
@@ -14,25 +13,36 @@ import { auth, db } from "../../Firebase/firebase";
 function Profile({ className = "" }) {
   const [ProfileCircleLoading, setProfileCircleLoading] = useState(false);
   //* selected file
-  const [finalProfilePicture, setFinalProfilePicture] = useState(null);
+  const [finalProfilePicture, setFinalProfilePicture] = useState(
+    () => sessionStorage.getItem("profileImageUrl") || null,
+  );
+
   useEffect(() => {
-    const user = auth.currentUser;
-    const userRef = doc(db, "users", user.uid);
-    async function dowloadProfilePicture() {
+    async function downloadProfilePicture() {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      // Already cached
+      if (sessionStorage.getItem("profileImageUrl")) return;
+
       try {
+        const userRef = doc(db, "users", user.uid);
         const userDoc = await getDoc(userRef);
-        if (userDoc) {
-          const userInfo = userDoc.data();
-          setFinalProfilePicture(userInfo.profileImageUrl);
-        } else {
-          console.log("user document don't exist");
+
+        if (userDoc.exists()) {
+          const imageUrl = userDoc.data().profileImageUrl;
+
+          setFinalProfilePicture(imageUrl);
+          sessionStorage.setItem("profileImageUrl", imageUrl);
         }
-      } catch (erro) {
-        console.log(erro);
+      } catch (error) {
+        console.log(error);
       }
     }
-    dowloadProfilePicture();
+
+    downloadProfilePicture();
   }, []);
+
   //* state for iamge profile ----
   const [profileImage, setProfileImage] = useState(null);
   //* for show crop div
@@ -41,39 +51,50 @@ function Profile({ className = "" }) {
   //-----------------------------------------------
   const { userData } = useContext(UserDataContext);
   const imageHolder = useRef();
+
   //*handle image change ----
   function handleImageChange(e) {
     const file = e.target.files[0];
     if (!file) return;
+
     // setthe iamge to profile
     const previewimage = URL.createObjectURL(file);
     setProfileImage(previewimage);
+
     //
     setShowCroper(true);
   }
+
   //
   return (
     <div className={className}>
-      <div className="relative w-fit h-fit ">
-        <div className="relative w-16 h-16 bg-gray-300 rounded-full mb-5 overflow-hidden">
-          <Img img={finalProfilePicture} className="w-full h-full" />
+      <div className="relative h-fit w-fit lg:mx-auto">
+        <div className="relative mb-5 h-16 w-16 overflow-hidden rounded-full bg-gray-300">
+          <Img
+            img={finalProfilePicture}
+            className="h-full w-full object-cover"
+          />
+
           <CircleLoadingAnimation
-            className={`absolute w-full h-full inset-0 bg-white opacity-90 ${ProfileCircleLoading ? "block" : "hidden"}`}
+            className={`absolute inset-0 h-full w-full bg-white opacity-90 ${
+              ProfileCircleLoading ? "block" : "hidden"
+            }`}
           />
         </div>
-        {/* // */}
+
+        {/* Edit image button */}
         <button
           onClick={() => {
             imageHolder.current.click();
           }}
           type="button"
-          className="absolute right-[-20px] bottom-0 bg-white p-[2px] rounded-full shadow cursor-pointer"
+          className="absolute bottom-0 right-[-20px] cursor-pointer rounded-full bg-white p-[2px] shadow lg:right-[-10px] lg:bottom-[10px]"
         >
           <PencilEditicon />
         </button>
-        {/* // */}
       </div>
-      {/* // */}
+
+      {/* Crop image */}
       {showCroper && (
         <Croper
           profileImage={profileImage}
@@ -82,6 +103,7 @@ function Profile({ className = "" }) {
           setProfileCircleLoading={setProfileCircleLoading}
         />
       )}
+
       <input
         id="profile-image"
         ref={imageHolder}
@@ -90,11 +112,13 @@ function Profile({ className = "" }) {
         hidden
         onChange={handleImageChange}
       />
+
       <Paragraph
-        className="font-inter font-bold text-[#0F0F0F] capitalize"
+        className="font-inter font-bold capitalize text-[#0F0F0F] lg:text-center"
         text={userData.fullName}
       />
     </div>
   );
 }
+
 export default Profile;

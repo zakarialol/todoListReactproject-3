@@ -42,5 +42,5 @@
 
 .undo-progress {
   transform-origin: left;
-  animation: undo-progress 5s linear forwards;
+  animation: undo-progress 2s linear forwards;
 }

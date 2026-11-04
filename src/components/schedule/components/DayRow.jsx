@@ -1,34 +1,3 @@
-// import ScheduleTask from "./ScheduleTask";
-
-// export default function DayRow({ day, tasks }) {
-//   return (
-//     <div className="flex border-b border-gray-300 last:border-b-0">
-//       {/* Day label */}
-//       <div className="w-32 shrink-0 border-r border-gray-300 p-3">
-//         <p className="font-medium">{day.label}</p>
-
-//         <p className="text-sm text-gray-500">{day.formattedDate}</p>
-//       </div>
-
-//       {/* Timeline */}
-//       <div
-//         className="grid"
-//         style={{
-//           gridTemplateColumns: "repeat(24, 120px)",
-//           gridAutoRows: "minmax(80px, auto)",
-//           backgroundImage:
-//             "linear-gradient(to right, transparent 119px, #d1d5db 119px)",
-//           backgroundSize: "120px 100%",
-//         }}
-//       >
-//         {tasks.map((task) => (
-//           <ScheduleTask key={task.id} task={task} />
-//         ))}
-//       </div>
-//     </div>
-//   );
-// }
-
 import ScheduleTask from "./ScheduleTask";
 
 export default function DayRow({ day, tasks }) {
@@ -57,14 +26,16 @@ export default function DayRow({ day, tasks }) {
   });
 
   return (
-    <div className="flex border-b border-gray-300 last:border-b-0">
-      <div className="w-32 shrink-0 border-r border-gray-300 p-3">
+    <div className="flex w-max border-b border-gray-300 last:border-b-0">
+      {/* Sticky day column */}
+      <div className="sticky left-0 z-20 w-32 shrink-0 border-r border-gray-300 bg-white p-3">
         <p className="font-medium">{day.label}</p>
         <p className="text-sm text-gray-500">{day.formattedDate}</p>
       </div>
 
+      {/* Hours grid */}
       <div
-        className="grid"
+        className="grid shrink-0"
         style={{
           gridTemplateColumns: "repeat(24, 120px)",
           gridAutoRows: "minmax(80px, auto)",

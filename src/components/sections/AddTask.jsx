@@ -52,7 +52,6 @@ function AddTask({
     event.preventDefault();
     //
     const user = auth.currentUser;
-    console.log(user, "user");
     //
     const date = new Date().toLocaleString();
     const dateOnly = SchudulDate.userShosenDate
@@ -226,7 +225,7 @@ function AddTask({
               }}
               type="button"
               svg={<DateTimeIcon />}
-              className="btn w-[60px] flex items-end justify-center"
+              className="flex h-[48px] w-[60px] items-center justify-center rounded-xl border border-gray-300 bg-white text-[#393433] shadow-sm transition-all duration-200 hover:border-gray-400 hover:bg-gray-100 active:scale-95"
             />
           </div>
           <Button
@@ -241,7 +240,7 @@ function AddTask({
               setHide(false);
               setSchudulDate({});
             }}
-            className={`btn text-[#898989] capitalize w-[87px]`}
+            className={`w-[87px] rounded-xl border border-gray-300 bg-white px-5 py-3 font-medium capitalize text-[#555555] shadow-sm transition-all duration-200 hover:border-gray-400 hover:bg-gray-100 active:scale-95`}
             text={"cancel"}
           />
         </div>
