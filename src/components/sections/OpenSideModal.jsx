@@ -51,49 +51,50 @@ function OpenSideModale({ className = "", OpenSideModale, setOpenSideModale }) {
   ];
   //
   return (
-    <div className={`${className} p-0 shadow-none`}>
-      {/* Close button: mobile only */}
-      <div className="text-end lg:hidden">
-        <SvgButton
-          svg={<XmarkIcon />}
-          className="mr-4 mt-4 hover:text-red-500"
-          onclick={() => setOpenSideModale(false)}
-        />
+    <>
+      <div className={`${className} p-0 shadow-none`}>
+        {/* Close button: mobile only */}
+        <div className="text-end lg:hidden">
+          <SvgButton
+            svg={<XmarkIcon />}
+            className="mr-4 mt-4 hover:text-red-500"
+            onclick={() => setOpenSideModale(false)}
+          />
+        </div>
+
+        {/* Profile */}
+        <div className="flex w-full justify-center text-center lg:items-center">
+          <Profile className="w-full border-b border-[#E2E4E5] px-4 pb-7 lg:flex lg:flex-col lg:items-center lg:text-center" />
+        </div>
+
+        {/* Navigation */}
+        <nav className="mt-5 flex flex-col">
+          {menuBtns.map((btn) => {
+            const Icon = btn.icon;
+
+            return (
+              <button
+                key={btn.id}
+                className="mb-1 flex items-center gap-3 rounded-lg px-6 py-3 text-left hover:bg-gray-100"
+                onClick={btn.onclick}
+              >
+                <span className="p-1">
+                  <Icon />
+                </span>
+
+                <span className="p-1 font-inter capitalize">{btn.text}</span>
+              </button>
+            );
+          })}
+        </nav>
       </div>
-
-      {/* Profile */}
-      <div className="flex w-full justify-center text-center lg:items-center">
-        <Profile className="w-full border-b border-[#E2E4E5] px-4 pb-7 lg:flex lg:flex-col lg:items-center lg:text-center" />
-      </div>
-
-      {/* Navigation */}
-      <nav className="mt-5 flex flex-col">
-        {menuBtns.map((btn) => {
-          const Icon = btn.icon;
-
-          return (
-            <button
-              key={btn.id}
-              className="mb-1 flex items-center gap-3 rounded-lg px-6 py-3 text-left hover:bg-gray-100"
-              onClick={btn.onclick}
-            >
-              <span className="p-1">
-                <Icon />
-              </span>
-
-              <span className="p-1 font-inter capitalize">{btn.text}</span>
-            </button>
-          );
-        })}
-      </nav>
-
       {prfileInfo && (
         <ProfileInfo
           setProfileInfo={setProfileInfo}
           className="fixed inset-0 z-[60] flex items-center justify-center bg-black/30 backdrop-blur-sm"
         />
       )}
-    </div>
+    </>
   );
 }
 export default OpenSideModale;
