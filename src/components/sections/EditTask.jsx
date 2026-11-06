@@ -48,19 +48,6 @@ function EditTask({
         ? new Date(`${selectedTask.taskDay}T${selectedTask.whenToStart}:00`)
         : null,
   });
-  // const [SchudulDate, setSchudulDate] = useState({
-  //   userShosenDate: new Date(selectedTask.taskDay + "T00:00:00") || "",
-  //   startTime:
-  //     new Date(`${selectedTask.taskDay}T${selectedTask.whenToStart}:00`) || "",
-  // });
-  // date fore datePicker
-  // const date = selectedDate.taskDay
-  //   ? new Date(selectedDate.taskDay + "T00:00:00")
-  //   : null;
-  // const time = selectedTask.whenToStart
-  //   ? new Date(`2000-01-01T${selectedTask.whenToStart}:00`)
-  //   : null;
-  //
   const durations = [
     { label: "15 minutes", value: "15" },
     { label: "30 minutes", value: "30" },
@@ -80,14 +67,6 @@ function EditTask({
   function handlestartTime(time) {
     setStartTime(time, "time");
   }
-  // function handleSubmit(e) {
-  //   e.preventDefault();
-  //   setopenDateForm((prev) => !prev);
-  //   setSchudulDate({
-  //     userShosenDate: selectedDate || "",
-  //     startTime: startTime || "",
-  //   });
-  // }
   function handleSubmit() {
     setopenDateForm(false);
 
@@ -99,12 +78,6 @@ function EditTask({
   // edit task
   function editTask(e) {
     e.preventDefault();
-    // const dateOnly = SchudulDate.userShosenDate
-    //   ? SchudulDate.userShosenDate.toLocaleDateString("en-CA")
-    //   : "";
-    // const timeOnly = SchudulDate.startTime
-    //   ? SchudulDate.startTime.toTimeString().slice(0, 5)
-    //   : "";
     const dateOnly =
       SchudulDate.userShosenDate instanceof Date &&
       !isNaN(SchudulDate.userShosenDate.getTime())

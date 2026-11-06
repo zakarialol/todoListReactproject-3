@@ -25,6 +25,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { collection, getDocs } from "firebase/firestore";
 import { auth, db } from "./Firebase/firebase.js";
 import cleanExpiredTasks from "./js/cleanExpiredTasks.js";
+import RouteDebugger from "./test/RouteDebugger.jsx";
 function App() {
   const [tasks, setTasks] = useState([]);
   // const user = auth.currentUser;
@@ -119,9 +120,15 @@ function App() {
                 }
               />
             </Routes>
+            <RouteDebugger />
           </div>
         </TasksProvider>
       </BrowserRouter>
+      <div className="fixed bottom-0 left-0 z-[9999] bg-black p-3 text-xs text-white">
+        <p>User: {user ? user.uid : "null"}</p>
+        <p>Loading: {String(loading)}</p>
+        <p>Firebase: {auth.currentUser ? auth.currentUser.uid : "null"}</p>
+      </div>
     </>
   );
 }

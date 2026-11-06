@@ -205,7 +205,12 @@ function ContactUs() {
         </div>
 
         {/* Form */}
-        <form action="" onSubmit={handleSend}>
+        <form
+          action=""
+          onSubmit={(e) => {
+            handleSend(e);
+          }}
+        >
           <InputWithTitle
             title="name"
             name="name"
@@ -256,9 +261,10 @@ function ContactUs() {
           />
 
           <Button
-            type="send"
+            // onClick={submi}
+            type="submit"
             className="inputSubBtn text-white bg-gradient-to-r from-orange-400 to-orange-700 mb-2 mt-3 flex items-center justify-center gap-1"
-            text="send"
+            text={sendAnimation ? "sending " : "send"}
             animation={
               <BounceLoadingAnimation
                 className={`${sendAnimation ? "block" : "hidden"}`}

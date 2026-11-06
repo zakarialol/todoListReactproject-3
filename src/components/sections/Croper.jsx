@@ -24,6 +24,7 @@ function Croper({
       setProfileCircleLoading(true);
       const file = await getCroppedImage(profileImage, croppedAreaPixels);
       const profileImg = await uploadToCloudinary(file);
+      sessionStorage.setItem("profileImageUrl", profileImg);
       setFinalProfilePicture(profileImg);
       const user = auth.currentUser;
       if (!user) {
@@ -44,7 +45,7 @@ function Croper({
     setShowCroper(false);
   }
   return (
-    <div className="fixed inset-0 bg-black flex items-center justify-center flex-col">
+    <div className="fixed inset-0 before:absolute before:inset-0 before:-z-10 before:bg-black/30 before:backdrop-blur-sm flex items-center justify-center flex-col">
       <div className="relative w-96 h-96">
         <Cropper
           image={profileImage}

@@ -163,9 +163,9 @@ function Register() {
         },
       });
     } catch (err) {
-      setloginAnimation(false);
       console.log("error", err);
     } finally {
+      setloginAnimation(false);
     }
   }
   //!

@@ -44,7 +44,6 @@ function Home() {
   const [OpenSideModale, setOpenSideModale] = useState(false);
   const [userData, setUserData] = useState("");
   const [deletedTask, setDeletedTask] = useState();
-  if (loading) return <CircleLoadingDiv />;
   useEffect(() => {
     async function laoduser() {
       const data = await getUserFromDB();
@@ -52,7 +51,7 @@ function Home() {
     }
     laoduser();
   }, []);
-
+  if (loading) return <CircleLoadingDiv />;
   const [category, setCategory] = useState([
     {
       id: "1",
@@ -141,7 +140,7 @@ function Home() {
             OpenSideModale={OpenSideModale}
             setOpenSideModale={setOpenSideModale}
             className={`fixed top-0 right-0 z-50 h-dvh w-[min(272px,85vw)] bg-white transition-transform duration-300 ease-in-out boxShadowGray ${
-              OpenSideModale ? "translate-x-0" : "translate-x-full"
+              OpenSideModale ? "" : "translate-x-full"
             }`}
           />
         </div>
