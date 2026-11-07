@@ -164,7 +164,6 @@ function ContactUs() {
   // this when the user lives the input
   return (
     <div className="relative isolate flex min-h-full flex-1 items-center justify-center overflow-x-clip overflow-y-visible bg-gray-50 px-4 pb-8 pt-28 sm:px-6 sm:pb-10 lg:px-8">
-      {/* Decorative curved background */}
       <div className="absolute inset-x-0 top-0 -z-10 h-[260px] bg-gradient-to-br from-orange-400 to-orange-600 sm:h-[320px] lg:h-[380px]">
         <svg
           className="absolute -bottom-px left-0 h-32 w-full sm:h-40 lg:h-48"
@@ -179,7 +178,6 @@ function ContactUs() {
         </svg>
       </div>
 
-      {/* Contact form */}
       <div className="relative my-auto w-full max-w-md rounded-2xl bg-white p-5 shadow-xl shadow-orange-900/10 sm:p-8">
         <div className="fixed right-0 top-28 z-[60] w-full overflow-hidden pointer-events-none">
           <p

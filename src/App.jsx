@@ -26,9 +26,9 @@ import { collection, getDocs } from "firebase/firestore";
 import { auth, db } from "./Firebase/firebase.js";
 import cleanExpiredTasks from "./js/cleanExpiredTasks.js";
 import RouteDebugger from "./test/RouteDebugger.jsx";
+import CircleLoadingDiv from "./components/sections/CircleLoadingDiv.jsx";
 function App() {
   const [tasks, setTasks] = useState([]);
-  // const user = auth.currentUser;
 
   //-------------------
   const [user, setUser] = useState(null);
@@ -76,6 +76,14 @@ function App() {
     getTasks();
   }, [user, loading]);
   //
+  if (loading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-white">
+        <CircleLoadingDiv svgCalass="w-[150px] h-[150px]" />
+      </div>
+    );
+  }
+  //
   return (
     <>
       <BrowserRouter>
@@ -120,15 +128,10 @@ function App() {
                 }
               />
             </Routes>
-            <RouteDebugger />
+            {/* <RouteDebugger /> */}
           </div>
         </TasksProvider>
       </BrowserRouter>
-      <div className="fixed bottom-0 left-0 z-[9999] bg-black p-3 text-xs text-white">
-        <p>User: {user ? user.uid : "null"}</p>
-        <p>Loading: {String(loading)}</p>
-        <p>Firebase: {auth.currentUser ? auth.currentUser.uid : "null"}</p>
-      </div>
     </>
   );
 }

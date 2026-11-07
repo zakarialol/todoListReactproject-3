@@ -90,7 +90,9 @@ function Login() {
 
         return;
       }
-      if (result.user.emailVerified) navigate("/home", { replace: true });
+      if (result.user.emailVerified) {
+        window.location.href = "/home";
+      }
     } catch (err) {
       if (err.code === "auth/invalid-credential") {
         setuserOrPasswordIncorretError(true);

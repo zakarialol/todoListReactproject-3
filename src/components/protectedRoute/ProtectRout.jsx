@@ -1,8 +1,7 @@
-//react
 import { Navigate } from "react-router-dom";
-//
 import CircleLoadingDiv from "../sections/CircleLoadingDiv";
-//
+import { auth } from "../../Firebase/firebase.js";
+
 function ProtectRoute({ children, user, loading }) {
   if (loading) {
     return (
@@ -12,9 +11,12 @@ function ProtectRoute({ children, user, loading }) {
       />
     );
   }
-  if (!user) {
+
+  if (!user && !auth.currentUser) {
     return <Navigate to="/" replace />;
   }
+
   return children;
 }
+
 export default ProtectRoute;

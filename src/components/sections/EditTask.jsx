@@ -89,7 +89,6 @@ function EditTask({
       !isNaN(SchudulDate.startTime.getTime())
         ? SchudulDate.startTime.toTimeString().slice(0, 5)
         : "";
-    // const durition = SchudulDate.duration;
     setTasks((prev) =>
       prev.map((task) => {
         if (task?.id === selectedTask.id) {

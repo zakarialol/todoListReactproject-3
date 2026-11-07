@@ -172,7 +172,6 @@ function Register() {
   //
   return (
     <div className="relative isolate flex min-h-full flex-1 items-center justify-center overflow-x-clip bg-gray-50 px-4 pb-8 pt-28 sm:px-6 sm:pb-10 lg:px-8">
-      {/* Decorative curved background */}
       <div className="absolute inset-x-0 top-0 -z-10 h-[260px] bg-gradient-to-br from-orange-400 to-orange-600 sm:h-[320px] lg:h-[380px]">
         <svg
           className="absolute -bottom-px left-0 h-32 w-full sm:h-40 lg:h-48"
