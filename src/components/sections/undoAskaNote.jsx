@@ -1,7 +1,7 @@
 import { useEffect, useContext } from "react";
 import { UserDataContext } from "../../context/userdataContext";
 import { updateDoc, doc } from "firebase/firestore";
-import { auth, db } from "../../Firebase/firebase";
+import { auth, db } from "../../firebase/firebase";
 function undoTask({ deletedTask, setDeletedTask }) {
   const user = auth.currentUser;
   const { tasks, setTasks } = useContext(UserDataContext);
@@ -40,7 +40,7 @@ function undoTask({ deletedTask, setDeletedTask }) {
         <div className="flex items-center gap-3 p-3">
           <div className="flex-1 min-w-0">
             <p className="font-semibold">Task moved to bin</p>
-            <p className="truncate text-sm text-gray-600">
+            <p className="text-sm text-gray-600 truncate">
               {deletedTask.title}
             </p>
           </div>
@@ -48,7 +48,7 @@ function undoTask({ deletedTask, setDeletedTask }) {
           <button
             type="button"
             onClick={undoTask}
-            className="shrink-0 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-2 font-semibold capitalize text-white shadow-sm transition hover:from-orange-600 hover:to-orange-700 active:scale-95"
+            className="px-4 py-2 font-semibold text-white capitalize transition rounded-lg shadow-sm shrink-0 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 active:scale-95"
           >
             undo
           </button>
@@ -57,7 +57,7 @@ function undoTask({ deletedTask, setDeletedTask }) {
         <div className="h-1 bg-orange-200">
           <div
             key={deletedTask.id}
-            className="undo-progress h-full w-full bg-gradient-to-r from-orange-400 to-orange-600"
+            className="w-full h-full undo-progress bg-gradient-to-r from-orange-400 to-orange-600"
           />
         </div>
       </div>

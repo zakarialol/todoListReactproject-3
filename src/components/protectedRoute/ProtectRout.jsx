@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import CircleLoadingDiv from "../sections/CircleLoadingDiv";
-import { auth } from "../../Firebase/firebase.js";
+import { auth } from "../../firebase/firebase.js";
 
 function ProtectRoute({ children, user, loading }) {
   if (loading) {

@@ -12,7 +12,7 @@ import { livingInput } from "../../js/livingInput";
 import useInput from "../hooks/useinput";
 //
 import { validEmail } from "../../js/checkInputsValidation";
-import { auth } from "../../Firebase/firebase";
+import { auth } from "../../firebase/firebase";
 //
 import BounceLoadingAnimation from "../icons/BounceLoadingAnimation";
 //

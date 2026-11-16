@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 //firebase
 import { collection, getDocs } from "firebase/firestore";
-import { db, auth } from "../../Firebase/firebase.js";
+import { db, auth } from "../../firebase/firebase.js";
 //imgs
 import healthImg from "@/assets/icons/healthImg.png";
 import mentalHealthImg from "@/assets/icons//mentalHealthImg.png";
@@ -118,19 +118,19 @@ function Home() {
         setTasks,
       }}
     >
-      <div className="flex min-h-dvh flex-col lg:flex-row">
-        <aside className="fixed left-0 top-0 z-40 hidden h-dvh w-64 flex-col border-r border-gray-200 bg-white lg:flex">
+      <div className="flex flex-col min-h-dvh lg:flex-row">
+        <aside className="fixed top-0 left-0 z-40 flex-col hidden w-64 bg-white border-r border-gray-200 h-dvh lg:flex">
           <LogoAndTitle
             logo={<Logo width="32" height="32" />}
             title="askanote"
             className="flex items-center gap-2 px-6 py-6"
           />
 
-          <div className="min-h-0 flex-1 overflow-y-auto">
+          <div className="flex-1 min-h-0 overflow-y-auto">
             <OpenSideModaleMenu
               OpenSideModale={true}
               setOpenSideModale={setOpenSideModale}
-              className="static h-full w-full bg-white shadow-none"
+              className="static w-full h-full bg-white shadow-none"
             />
           </div>
         </aside>
@@ -140,20 +140,20 @@ function Home() {
             OpenSideModale={OpenSideModale}
             setOpenSideModale={setOpenSideModale}
             className={`fixed top-0 right-0 z-50 h-dvh w-[min(272px,85vw)] bg-white transition-transform duration-300 ease-in-out boxShadowGray ${
-              OpenSideModale ? "" : "translate-x-full"
+              OpenSideModale ? "" : "translate-x-[calc(100%+20px)]"
             }`}
           />
         </div>
 
         {/* Right content area */}
-        <div className="flex min-h-dvh min-w-0 flex-1 flex-col lg:ml-64">
+        <div className="flex flex-col flex-1 min-w-0 min-h-dvh lg:ml-64">
           {/* Header */}
-          <header className="sticky top-0 z-30 bg-white/95 px-4 pb-3 backdrop-blur-sm sm:px-6 lg:px-8">
+          <header className="sticky top-0 z-30 px-4 pb-3 bg-white/95 backdrop-blur-sm sm:px-6 lg:px-8">
             <div className="lg:hidden">
               <LogoAndTitle
                 logo={<Logo width="32" height="32" />}
                 title="askanote"
-                className="flex w-full items-center gap-2 py-6"
+                className="flex items-center w-full gap-2 py-6"
               />
             </div>
 
@@ -172,9 +172,9 @@ function Home() {
           </header>
 
           {/* Scrollable main content */}
-          <main className="mx-auto w-full max-w-5xl flex-1 px-4 sm:px-6 lg:px-8">
+          <main className="flex-1 w-full max-w-5xl px-4 mx-auto sm:px-6 lg:px-8">
             {/* Categories */}
-            <div className="my-8 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-6">
+            <div className="grid grid-cols-2 gap-3 my-8 sm:grid-cols-3 xl:grid-cols-6">
               {category.map((category, index) => (
                 <Category
                   key={index}

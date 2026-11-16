@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 //pages
 import Home from "./components/pages/Home";
 import Register from "./components/pages/Register";
@@ -23,9 +23,8 @@ import { TasksProvider } from "./context/tasksProvider.jsx";
 import { onAuthStateChanged } from "firebase/auth";
 //
 import { collection, getDocs } from "firebase/firestore";
-import { auth, db } from "./Firebase/firebase.js";
+import { auth, db } from "./firebase/firebase.js";
 import cleanExpiredTasks from "./js/cleanExpiredTasks.js";
-import RouteDebugger from "./test/RouteDebugger.jsx";
 import CircleLoadingDiv from "./components/sections/CircleLoadingDiv.jsx";
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -78,7 +77,7 @@ function App() {
   //
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-white">
+      <div className="flex items-center justify-center h-screen bg-white">
         <CircleLoadingDiv svgCalass="w-[150px] h-[150px]" />
       </div>
     );
@@ -88,10 +87,19 @@ function App() {
     <>
       <BrowserRouter>
         <TasksProvider value={{ tasks, setTasks, user, loading, tasksLoading }}>
-          <div className="flex min-h-dvh flex-col">
+          <div className="flex flex-col min-h-dvh">
             <Routes>
               <Route element={<Layout />}>
-                <Route path="/" element={<Login />} />
+                <Route
+                  path="/"
+                  element={
+                    user?.emailVerified ? (
+                      <Navigate to="/home" replace />
+                    ) : (
+                      <Login />
+                    )
+                  }
+                />
                 <Route path="/register" element={<Register />} />
                 <Route path="/verifyEmail" element={<VerifyEmail />} />
                 <Route path="/resetPassword" element={<ResetPassword />} />

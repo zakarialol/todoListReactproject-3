@@ -13,7 +13,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { GenirateId } from "../../js/genirateId.js";
 //this for fire base
-import { db, auth } from "../../Firebase/firebase.js";
+import { db, auth } from "../../firebase/firebase.js";
 import { setDoc, doc } from "firebase/firestore";
 
 function AddTask({

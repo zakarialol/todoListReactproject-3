@@ -8,7 +8,6 @@ import {
   writeBatch,
 } from "firebase/firestore";
 async function cleanExpiredTasks(userId) {
-  console.log(userId.uid, "useruid");
   try {
     const thirtyDaysAgo = Timestamp.fromDate(
       new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),

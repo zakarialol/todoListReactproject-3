@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 import DateTimeIcon from "../pages/datetime";
 import SvgButton from "../Ui/Svgbutton";
 //firebase
-import { db, auth } from "../../Firebase/firebase";
+import { db, auth } from "../../firebase/firebase";
 import { updateDoc, doc } from "firebase/firestore";
 
 //states

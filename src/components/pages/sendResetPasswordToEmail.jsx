@@ -6,7 +6,7 @@ import ResendBtnWithCountDown from "../sections/resendButtonWithCountDown";
 import EmailIcon from "../icons/emailIcon";
 //firebase
 import { sendPasswordResetEmail } from "firebase/auth";
-import { auth } from "../../Firebase/firebase";
+import { auth } from "../../firebase/firebase";
 //
 import Paragraph from "../Ui/Paragraph";
 import Svg from "../Ui/svg";

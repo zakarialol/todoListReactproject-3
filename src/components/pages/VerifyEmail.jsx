@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import { auth } from "../../Firebase/firebase";
+import { auth } from "../../firebase/firebase";
 import { useNavigate } from "react-router-dom";
 //
 import { sendEmailVerification } from "firebase/auth";

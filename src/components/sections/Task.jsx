@@ -6,7 +6,7 @@ import { useState } from "react";
 import { UserDataContext } from "../../context/userdataContext";
 import { useContext } from "react";
 import { updateDoc, doc } from "firebase/firestore";
-import { auth, db } from "../../Firebase/firebase";
+import { auth, db } from "../../firebase/firebase";
 function Task({
   taskText,
   type,

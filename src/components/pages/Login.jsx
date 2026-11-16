@@ -14,11 +14,11 @@ import {
   browserSessionPersistence,
 } from "firebase/auth";
 import { getDoc, doc } from "firebase/firestore";
-import { db } from "../../Firebase/firebase";
+import { db } from "../../firebase/firebase";
 import { livingInput } from "../../js/livingInput";
 import useInput from "../hooks/useinput";
 import { validEmail } from "../../js/checkInputsValidation";
-import { auth } from "../../Firebase/firebase";
+import { auth } from "../../firebase/firebase";
 
 function Login() {
   const navigate = useNavigate();
@@ -90,9 +90,7 @@ function Login() {
 
         return;
       }
-      if (result.user.emailVerified) {
-        window.location.href = "/home";
-      }
+      if(result.user.emailVerified) navigate("/home",{replace:true})
     } catch (err) {
       if (err.code === "auth/invalid-credential") {
         setuserOrPasswordIncorretError(true);
@@ -106,11 +104,11 @@ function Login() {
   }
 
   return (
-    <div className="relative isolate flex min-h-full flex-1 items-center justify-center overflow-hidden bg-gray-50 px-4 py-10 sm:px-6 lg:px-8">
+    <div className="relative flex items-center justify-center flex-1 min-h-full px-4 py-10 overflow-hidden isolate bg-gray-50 sm:px-6 lg:px-8">
       {/* Decorative curved background */}
       <div className="absolute inset-x-0 top-0 -z-10 h-[320px] bg-gradient-to-br from-orange-400 to-orange-600 sm:h-[380px]">
         <svg
-          className="absolute -bottom-px left-0 h-40 w-full sm:h-48"
+          className="absolute left-0 w-full h-40 -bottom-px sm:h-48"
           viewBox="0 0 1440 320"
           preserveAspectRatio="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -123,7 +121,7 @@ function Login() {
       </div>
 
       {/* Login form */}
-      <div className="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-xl shadow-orange-900/10 sm:p-8">
+      <div className="relative w-full max-w-md p-6 bg-white shadow-xl rounded-2xl shadow-orange-900/10 sm:p-8">
         <div className="text-center">
           <Paragraph className="formTitle" text="login" />
         </div>
@@ -170,7 +168,7 @@ function Login() {
             setshowPassword={setshowPassword}
           />
 
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
             <RememberMeCheckBox
               remmberMe={remmberMe}
               setRememberMe={setRememberMe}
@@ -182,7 +180,7 @@ function Login() {
                 navigate("/resetPassword");
               }}
               type="button"
-              className="inputTitle mb-0 text-xs"
+              className="mb-0 text-xs inputTitle"
             >
               forgot Password
             </button>
@@ -190,7 +188,7 @@ function Login() {
 
           <Button
             type="submit"
-            className="inputSubBtn text-white bg-gradient-to-r from-orange-400 to-orange-700 mb-2 mt-3 flex items-center justify-center gap-1"
+            className="flex items-center justify-center gap-1 mt-3 mb-2 text-white inputSubBtn bg-gradient-to-r from-orange-400 to-orange-700"
             text="login"
             disabled={loginAnimation}
             animation={
@@ -201,7 +199,7 @@ function Login() {
           />
         </form>
 
-        <div className="mt-4 flex flex-wrap items-center justify-center gap-1 text-center capitalize">
+        <div className="flex flex-wrap items-center justify-center gap-1 mt-4 text-center capitalize">
           <Paragraph text="don't have an account ? " />
           <Link
             to="/register"

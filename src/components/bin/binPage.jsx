@@ -5,7 +5,7 @@ import BinActions from "./components/BinActions";
 import DeleteConfirmation from "./components/DeleteConfirmation";
 import { useTasks } from "../../context/tasksProvider";
 import { updateDoc, doc, collection, writeBatch } from "firebase/firestore";
-import { auth, db } from "../../Firebase/firebase";
+import { auth, db } from "../../firebase/firebase";
 
 function BinPage() {
   const user = auth.currentUser;

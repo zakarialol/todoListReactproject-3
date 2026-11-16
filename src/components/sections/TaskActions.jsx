@@ -2,7 +2,7 @@ import EditBtn from "../icons/EditIcon";
 import DeleteBtn from "../icons/DeleteIcon";
 import { useContext } from "react";
 import { UserDataContext } from "../../context/userdataContext";
-import { auth, db } from "../../Firebase/firebase";
+import { auth, db } from "../../firebase/firebase";
 import { serverTimestamp, updateDoc, doc } from "firebase/firestore";
 function TaskActions({
   task,

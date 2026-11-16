@@ -8,7 +8,7 @@ import { UserDataContext } from "../../context/userdataContext";
 import CircleLoadingAnimation from "../icons/CircleLoaingAnimation";
 //firebase
 import { doc, getDoc } from "firebase/firestore";
-import { auth, db } from "../../Firebase/firebase";
+import { auth, db } from "../../firebase/firebase";
 //
 function Profile({ className = "" }) {
   const [ProfileCircleLoading, setProfileCircleLoading] = useState(false);
@@ -58,7 +58,6 @@ function Profile({ className = "" }) {
 
     // setthe iamge to profile
     const previewimage = URL.createObjectURL(file);
-    console.log(previewimage, "previewimage");
     setProfileImage(previewimage);
 
     //

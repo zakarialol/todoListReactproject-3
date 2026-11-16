@@ -5,7 +5,7 @@ import getCroppedImage from "../../js/getCroppedImage.js";
 import uploadToCloudinary from "../../js/uploadToCloudinary.js";
 //firebase
 import { doc, updateDoc } from "firebase/firestore";
-import { auth, db } from "../../Firebase/firebase.js";
+import { auth, db } from "../../firebase/firebase.js";
 
 function Croper({
   profileImage,
