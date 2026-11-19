@@ -67,7 +67,8 @@ function EditTask({
   function handlestartTime(time) {
     setStartTime(time, "time");
   }
-  function handleSubmit() {
+  function handleSubmit(e) {
+    e.preventDefault()
     setopenDateForm(false);
 
     setSchudulDate({
@@ -76,8 +77,7 @@ function EditTask({
     });
   }
   // edit task
-  function editTask(e) {
-    e.preventDefault();
+  function editTask() {
     const dateOnly =
       SchudulDate.userShosenDate instanceof Date &&
       !isNaN(SchudulDate.userShosenDate.getTime())
@@ -118,21 +118,19 @@ function EditTask({
     updateTask();
   }
   return (
-    <form
-      onSubmit={(e) => {
-        editTask(e);
-      }}
+    <div
       className=" fixed top-1/2 left-1/2 bg-white z-50 p-3 shadow-[0_10px_50px_rgba(128,128,128,0.8)] -translate-x-1/2 -translate-y-1/2 min-w-[328px] rounded-md"
     >
       <div>
-        <Input
+        <textarea
+          id="textareaFormEdit"
           value={value}
-          setValue={setValue}
+          onChange={(e) => setValue(e.target.value)}
           placeHolder="write a new task..."
           className={
-            "w-full px-4 py-1 text-xl placeholder:opacity-30 placeholder:text-3xl outline-none placeholder:capitalize mb-5"
+            "w-full px-4 py-1 text-xl placeholder:opacity-30 placeholder:text-3xl outline-none placeholder:capitalize mb-5 resize-none"
           }
-        />
+        ></textarea>
       </div>
       <div>
         <div className="flex gap-[10px] mb-5 flex-wrap">
@@ -148,15 +146,15 @@ function EditTask({
             </span>
           ))}
         </div>
-        <div className=" flex gap-2">
+        <div className="flex gap-2 ">
           {/* //for datetime button ---------- */}
-          <div className="relative">
+          <form className="relative" onSubmit={(e)=>{handleSubmit(e)}}>
             <div
               className={`absolute -top-[303px] border border-gray-400/30 p-4 rounded-md bg-white w-[275px]  ${openDateForm ? "block" : "hidden"}`}
             >
               <div className="text-center">
                 <Paragraph
-                  className="formTitle text-base mb-1"
+                  className="mb-1 text-base formTitle"
                   text="schedule (optional)"
                 />
               </div>
@@ -168,7 +166,7 @@ function EditTask({
                   placeholderText="Choose a date"
                   dateFormat="dd/MM/yyyy"
                   minDate={new Date()}
-                  className="registerInput w-auto"
+                  className="w-auto registerInput"
                   required
                 />
               </div>
@@ -183,7 +181,7 @@ function EditTask({
                   timeIntervals={60}
                   timeCaption="Start time"
                   dateFormat="hh:mm"
-                  className="registerInput w-auto"
+                  className="w-auto registerInput"
                   filterTime={(time) => {
                     const now = new Date();
 
@@ -202,10 +200,7 @@ function EditTask({
                   required
                   value={duration}
                   onChange={(e) => setDuration(e.target.value)}
-                  className="registerInput w-auto
-             outline-none transition
-             focus:border-blue-500 focus:ring-2
-             focus:ring-blue-100"
+                  className="w-auto transition outline-none registerInput focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 >
                   <option value="" disabled className="text-gray-500">
                     Select duration
@@ -219,8 +214,8 @@ function EditTask({
               </div>
               <div className="flex gap-2">
                 <Button
-                  onClick={handleSubmit}
-                  className="inputSubBtn text-white bg-gradient-to-r from-orange-400 to-orange-700 mb-1 mt-5 flex item-center justify-center gap-1"
+                  type="submit"
+                  className="flex justify-center gap-1 mt-5 mb-1 text-white inputSubBtn bg-gradient-to-r from-orange-400 to-orange-700 item-center"
                   text="save"
                 />
                 <Button
@@ -242,9 +237,8 @@ function EditTask({
               svg={<DateTimeIcon />}
               className="flex h-[48px] w-[60px] items-center justify-center rounded-xl border border-gray-300 bg-white text-[#393433] shadow-sm transition-all duration-200 hover:border-gray-400 hover:bg-gray-100 active:scale-95"
             />
-          </div>
+          </form>
           <Button
-            type="submit"
             onClick={editTask}
             className={`btn flex-1 text-[#898989] capitalize w-full ${value.trim().length > 0 ? "bg-[#393433] text-[#FFFFFF]" : ""}`}
             text="edit"
@@ -256,7 +250,7 @@ function EditTask({
           />
         </div>
       </div>
-    </form>
+    </div>
   );
 }
 export default EditTask;
