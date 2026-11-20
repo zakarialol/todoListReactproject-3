@@ -26,10 +26,21 @@ function AddTask({
   onClick,
   setSelected,
 }) {
+  //
+  const getInitialDate = () => {
+    const now = new Date();
+
+    // If there are no full-hour slots left today
+    if (now.getHours() >= 23) {
+      return new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    }
+
+    return now;
+  };
   //state for opinning the date time when we add task-----------------
   const [openDateForm, setopenDateForm] = useState(false);
   //state for date -----------
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(getInitialDate);
   const [startTime, setStartTime] = useState(null);
   const [SchudulDate, setSchudulDate] = useState({});
   //durition for select heurs --------------
@@ -87,13 +98,14 @@ function AddTask({
   //
   function hanldeDateChange(date) {
     setSelectedDate(date);
+    setStartTime(null);
   }
   function handlestartTime(time) {
     setStartTime(time, "time");
   }
   //function to add objet
   function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
     setopenDateForm((prev) => !prev);
     setSchudulDate({
       userShosenDate: selectedDate,
@@ -103,14 +115,12 @@ function AddTask({
   }
   //
   return (
-    <div
-      className="p-3 fixed top-1/2 left-1/2 bg-white z-50 shadow-[0_10px_50px_rgba(128,128,128,0.8)] -translate-x-1/2 -translate-y-1/2 min-w-[328px] rounded-md"
-    >
+    <div className="p-3 fixed top-1/2 left-1/2 bg-white z-50 shadow-[0_10px_50px_rgba(128,128,128,0.8)] -translate-x-1/2 -translate-y-1/2 min-w-[328px] rounded-md">
       <div>
         <textarea
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeHolder="write a new task..."
+          placeholder="write a new task..."
           className={
             "w-full px-4 py-1 text-xl placeholder:opacity-30 placeholder:text-3xl outline-none placeholder:capitalize mb-5 resize-none"
           }
@@ -133,7 +143,7 @@ function AddTask({
         </div>
         <div className="flex gap-2 ">
           {/* //for datetime button ---------- */}
-          <form className="relative" onSubmit={(e)=>handleSubmit(e)}>
+          <form className="relative" onSubmit={(e) => handleSubmit(e)}>
             <div
               className={`absolute -top-[303px] border border-gray-400/30 p-4 rounded-md bg-white w-[275px]  ${openDateForm ? "block" : "hidden"}`}
             >
@@ -152,6 +162,7 @@ function AddTask({
                   dateFormat="dd/MM/yyyy"
                   minDate={new Date()}
                   className="w-auto registerInput"
+                  onFocus={(e) => e.target.blur()}
                   required
                 />
               </div>
@@ -167,6 +178,7 @@ function AddTask({
                   timeCaption="Start time"
                   dateFormat="hh:mm"
                   className="w-auto registerInput"
+                  onFocus={(e) => e.target.blur()}
                   filterTime={(time) => {
                     const now = new Date();
 
