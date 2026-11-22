@@ -25,36 +25,36 @@ function BinTableRow({ task, checked, onSelect, onRestore, onDelete }) {
       <td className="p-4 font-medium text-gray-700 ">{task.task}</td>
 
       {/* Created At */}
-      <td className="p-4 text-gray-500  whitespace-nowrap text-center">
+      <td className="p-4 text-center text-gray-500 whitespace-nowrap">
         {task.date}
       </td>
 
       {/* Type */}
       <td
-        className="p-4 capitalize text-center whitespace-nowrap"
+        className="p-4 text-center capitalize whitespace-nowrap"
         style={{ color: typeObject[ReplaceSpace(task.type)] }}
       >
         {task.type}
       </td>
 
       {/* Task Day */}
-      <td className="p-4 text-gray-500 whitespace-nowrap text-center">
+      <td className="p-4 text-center text-gray-500 whitespace-nowrap">
         {task.taskDay || "—"}
       </td>
 
       {/* whenToStart */}
-      <td className="p-4 text-gray-500 text-center">
+      <td className="p-4 text-center text-gray-500">
         {task.whenToStart || "—"}
       </td>
 
       {/* Duration */}
-      <td className="p-4 text-gray-500 text-center">
+      <td className="p-4 text-center text-gray-500">
         {task.taskDuration ? `${task.taskDuration + " min"}` : "—"}{" "}
       </td>
 
       {/* Actions */}
       <td className="p-4">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center justify-center gap-3">
           <button
             type="button"
             onClick={() => onRestore(task.id)}

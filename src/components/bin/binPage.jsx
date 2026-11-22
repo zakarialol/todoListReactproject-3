@@ -15,7 +15,6 @@ function BinPage() {
 
   // Confirmation popup
   const [showDeletePopup, setShowDeletePopup] = useState(false);
-  if (tasksLoading) return <>...loading</>;
   const binTasks = tasks.filter((task) => task.deletedAt);
   // Select / deselect one task
   function handleSelect(taskId) {
@@ -145,7 +144,7 @@ function BinPage() {
       ) : (
         <>
           <div className="min-h-[350px] flex flex-col items-center justify-center text-center bg-white border border-slate-100 rounded-2xl p-8">
-            <div className="w-20 h-20 rounded-3xl bg-slate-50 flex items-center justify-center mb-5">
+            <div className="flex items-center justify-center w-20 h-20 mb-5 rounded-3xl bg-slate-50">
               <svg
                 width="38"
                 height="38"
@@ -167,7 +166,7 @@ function BinPage() {
               Your bin is empty
             </h2>
 
-            <p className="text-sm text-slate-400 mt-2 max-w-xs">
+            <p className="max-w-xs mt-2 text-sm text-slate-400">
               Deleted tasks will appear here. You can restore them whenever you
               need.
             </p>
