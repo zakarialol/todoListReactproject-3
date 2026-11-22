@@ -19,7 +19,6 @@ function Task({
   setSelectedTask,
   setValue,
   setSelected,
-
   hide,
 }) {
   const user = auth.currentUser;
@@ -64,9 +63,9 @@ function Task({
       className={`flex items-start gap-3 py-4 border-[(RGA(0_0_0_/.15))] border-b ${checked && "line-through"}`}
     >
       <CustomeCheckBox onClick={taskComplete} checked={checked} id={tasks.id} />
-      <div className="font-inter flex-1">
+      <div className="flex-1 font-inter">
         <div className="flex justify-between gap-3 mb-3">
-          <p className="text-[#121212] text-[17px]">
+          <p className="text-[#121212] text-[17px] whitespace-pre-line">
             {FirstLetterUpperFunc(taskText)}
           </p>
           <TaskActions
